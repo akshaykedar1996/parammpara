@@ -1,0 +1,48 @@
+{% extends "superadmin/base_header.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<style>
+    .form-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-4">
+            <div class="form-container">
+                <h3 class="mb-4">{{ title }}</h3>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Title <span class="text-danger">*</span></label>
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Post</label>
+                        {{ form.post }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        {{ form.image }}
+                        {% if testimonial.image %}
+                        <div class="mt-2">
+                            <strong>Current Image:</strong><br>
+                            <img src="{{ testimonial.image.url }}" width="150">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        {{ form.description1 }}
+                    </div>
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'testimonials_list' %}" class="btn btn-secondary">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}Sub Services{% endblock %}
+
+{% block content %}
+<div class="pc-container"> 
+    <div class="pc-content">
+        <div class="container mt-4">
+            <h3>Sub Services</h3>
+            <a href="{% url 'subservice_add' %}" class="btn btn-primary mb-3">Add Sub Service</a>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Main Service</th><th>Title</th><th>Image</th><th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service.main_service.title }}</td>
+                    <td>{{ service.title }}</td>
+                    
+                    <td>
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" width="100">
+                    {% endif %}
+                    </td>
+                    <td>
+                    <a href="{% url 'subservice_edit' service.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'subservice_delete' service.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>        
+{% endblock %}

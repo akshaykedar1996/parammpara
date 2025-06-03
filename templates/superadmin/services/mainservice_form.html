@@ -1,0 +1,80 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-5">
+            <div class="card shadow-lg border-0  p-4">
+                <h3 class="mb-4 text-primary fw-bold text-center">{{ title }}</h3>
+
+                <form method="post" enctype="multipart/form-data" class="px-2">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-4">
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold text-dark">{{ field.label }}</label>
+                            
+                            {# ✅ Show image preview if this is the image field and object has image #}
+                            {% if field.name == 'image' and form.instance.image %}
+                                <div class="mb-3">
+                                    <img src="{{ form.instance.image.url }}" alt="Current Image"
+                                         class="img-thumbnail" style="max-width: 200px; height: auto; border-radius: 10px;">
+                                    <p class="text-muted mt-1">Current image preview</p>
+                                </div>
+                            {% endif %}
+
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success px-4 py-2 shadow-sm rounded-pill">
+                            <i class="bi bi-check-circle"></i> Save
+                        </button>
+                        <a href="{% url 'mainservice_list' %}" class="btn btn-secondary px-4 py-2 shadow-sm rounded-pill">
+                            <i class="bi bi-arrow-left-circle"></i> Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"], input[type="file"], textarea, select {
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="file"]:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #198754;
+        box-shadow: 0 0 5px rgba(25, 135, 84, 0.3);
+        outline: none;
+    }
+
+    label.form-label {
+        font-size: 1rem;
+    }
+
+    .btn:hover {
+        transform: scale(1.02);
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 20px;
+    }
+</style>
+{% endblock %}

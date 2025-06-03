@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parammpara E commerce Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-container {
+      max-width: 420px;
+      margin: 50px auto;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      border: 1px solid #1DB3CC;
+      border-top: 10px solid #1DB3CC;
+    }
+
+    .form-container h3 {
+      text-align: center;
+      color: #1DB3CC;
+      margin-bottom: 25px;
+    }
+
+    .btn-theme {
+      background-color: #F6D105;
+      border: none;
+      color: #000;
+    }
+
+    .btn-theme:hover {
+      background-color: #FB9109;
+      color: white;
+    }
+
+    .form-text-link {
+      color: #EF4F8D;
+      text-decoration: none;
+    }
+
+    .form-text-link:hover {
+      text-decoration: underline;
+    }
+
+    .google-btn {
+      background-color: #1DB3CC;
+      color: white;
+    }
+
+    .google-btn:hover {
+      background-color: #FB9109;
+    }
+
+    /* Custom message alert styling */
+    .msg {
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .msg.error {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .msg.success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+
+    .msg.info {
+      background-color: #cff4fc;
+      color: #055160;
+      border: 1px solid #b6effb;
+    }
+
+    .remember-me-label {
+      margin-left: 8px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .remember-me-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h3>Login</h3>
+
+    <!-- Styled Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="msg {% if message.tags %}{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember Me Styled -->
+      <div class="remember-me-container">
+        <input type="checkbox" id="rememberMeCheckbox" name="remember_me">
+        <label for="rememberMeCheckbox" class="remember-me-label">Remember me</label>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-theme">Login</button>
+      </div>
+
+      <div class="text-center mt-3">
+        <a href="{% url 'forgot_password' %}" class="form-text-link">Forgot Password?</a>
+      </div>
+
+      <hr>
+
+     
+      <div class="d-grid mb-2">
+        <a href="{% url 'google_login' %}" class="btn google-btn text-center">
+            <i class="fab fa-google me-2"></i> Login with Google
+        </a>
+    </div>
+    
+
+      <div class="text-center">
+        <span>Don't have an account? <a href="{% url 'regiter' %}" class="form-text-link">Register</a></span>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const password = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      const type = password.getAttribute("type") === "password" ? "text" : "password";
+      password.setAttribute("type", type);
+      this.querySelector('i').classList.toggle("fa-eye");
+      this.querySelector('i').classList.toggle("fa-eye-slash");
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!--
+author: Boostraptheme
+author URL: https://boostraptheme.com
+License: Creative Commons Attribution 4.0 Unported
+License URL: https://creativecommons.org/licenses/by/4.0/
+-->
+
+<!DOCTYPE html>
+<html class="no-js" prefix="og: http://ogp.me/ns#"  lang="en-IN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Parammpara</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+        <meta name="description" content="Salon Bootstrap Themes & Templates Salon bootstrap themes and templates will help you create an amazing website for your beauty salon of any kind in no time." /> 
+        <link href="/static/img/logo.jpg" rel="apple-touch-icon" sizes="96x96">
+        <link href="/static/img/logo.jpg" rel="icon" sizes="96x96" type="image/png">
+        <meta content="img/beauty-salon_logo_96dp.png" name="msapplication-TileImage">
+        
+        <meta property="og:url" content="https://www.boostraptheme.com/demo/index.html" />
+        <meta property="og:title" content="Beauty and Salon - Free Bootstrap 4 Template | Boostraptheme" />
+        <meta property="og:locale" content="en_IN" /> 
+        <meta property="og:site_name" content="Boostraptheme" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="BoostrapTheme" />
+        <meta name="twitter:creator" content="BoostrapTheme" />
+        
+		
+		<link href="https://fonts.googleapis.com/css?family=Lobster|Roboto:400,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+        <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="/static/css/magnific-popup.css">
+        <link rel="stylesheet" href="/static/css/animate.min.css">
+        <link rel="stylesheet" href="/static/css/app.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
+
+        <script src="/static/js/jquery.min.js"></script>
+        <script> 
+            $(window).on('load', function(){ $(".loader").fadeOut(2000); }); 
+            $(function () {
+                new WOW().init();
+            });
+        </script>
+        <style>
+            /* Appointment Button Styling */
+/* Appointment Button - Modern Look */
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="loader"></div>
+        <!-- NAVIGATION 
+            =================-->
+            <!-- <div class="topmenu">
+              <div class="container">
+                <div class="row"  id="page-top">
+                  <div class="col-md-6 col-sm-6 phone"> 
+                        <div><i class="fa fa-phone"></i> Call Now: (91) 999 9999 99</div> 
+                  </div>	
+                  <div class="col-md-6 col-sm-6 address"> 
+                        <div><i class="fa fa-map-marker"></i> Dros Began, India 222312</div> 
+                  </div> 
+                </div>
+              </div>
+            </div>  -->
+
+            <nav class="navbar navbar-expand-lg navbar-danger" id="mainNav" data-toggle="affix">
+              <div class="container-fluid">
+              	<a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}">
+                    <div style="width: 150px; height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <img src="/static/img/logo.jpg" style="width: 100%; height: auto;" alt="" class="img-fluid">
+                    </div>
+                </a>
+                <button class="navbar-toggler navbar-toggler-center  ml-auto py-3 my-2 " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  Menu
+                  <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav text-uppercase ml-auto">
+                  	<li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" href="{% url 'index' %}">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" href="{% url 'all_products' %}">Product</a>
+                    </li>    
+           
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          
+
+                            {% for service in services %}
+                                <li><a class="dropdown-item" href="{% url 'service_detail' service.id %}" style="font-size: small;">{{ service.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li> 
+ 
+                    <!-- <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="">
+                          <i class="fas fa-shopping-cart"></i> 
+                        </a>
+                      </li> -->
+                      
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger appointment-btn " href="{% url 'franchise' %}">Become A Franchise</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="">Products</a>
+                    </li> -->
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+        <!-- HEADER 
+            =================-->
+            
+            {% include 'e_commerc/Navbar.html' %}
+            <header id="home">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for image in images %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        {% for image in images %}
+                            {% if image.image.url is not none %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}" style="background-image: url('{{ image.image.url }}');">
+                            {% else %}
+                            {% endif %}
+
+                                <div class="home-content-box">
+                                    <div class="home-content-box-inner text-center">
+                                        <div class="home-heading animated fadeInDown">
+                                            <h3>{{ image.title }}</h3>
+                                        </div>
+                                        <div class="home-btn wow fadeInUp" data-wow-delay="0.3s">
+                                            <a class="js-scroll-trigger" href="#" role="button" title="View Our Work">
+                                                <button class="btn btn-lg btn-general btn-greenish">Book Now</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        {% endfor %}
+                    </div> 
+                </div>
+            </header>
+            
+
+        <!-- SERVICES 
+            =================-->
+            <section id="services" class="services">
+                <div class="container">
+                	<div class="row mb-5">
+                        <div class="col-md-12 text-center mb-5">
+                            <div class="heading wow fadeInUp" data-wow-delay="0.3s">
+                                <h1>Parammpara Accommodation Services</h1>
+                                <div class="bord-bot"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                     
+                        {% for service in services %}
+                            <div class="col-md-3 col-sm-6" style="margin-top: 10px;">
+                                <div class="service-cont wow fadeInUp" data-wow-delay="0.3s">
+                                    {% if service.image.url is not none %}
+                                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="img-fluid">
+                                    {% else %}
+                                    <img src="" alt="{{ service.title }}" class="img-fluid">
+                                    {% endif %}
+                                    <div class="service-desc">
+                                        <h5 style="font-weight: bold; margin-bottom: 10px;">{{ service.title }}</h5>
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            {% for sub in service.sub_services.all %}
+                                                <li style="align-items: center; font-size: 12px; padding: 3px 0;" >
+                                                    <span style="color: #0a0a0a; font-size: 12px; margin-right: 8px;">➤</span> 
+                                                    <a href="{% url 'sub_service_detail' sub.id %}" style="text-decoration: none; color: black;">
+                                                        {{ sub.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    
+                    
+
+                      
+                    </div>
+                </div>
+            </section>
+
+        <!-- Why Choose Us
+            =================-->
+        
+
+        <section class="why-choose-us">
+            <div class="container">
+                {% comment %} <h2 class="section-title">Why Choose Us?</h2> {% endcomment %}
+                {% comment %} <p class="sub-heading">
+                    In order to give patients stress-free solutions to any skin and hair issues they may be having, 
+                    renowned cosmetologist <strong>Dr. Kalyani Katkar</strong>, founded the Flourish Clinic.
+                </p> {% endcomment %}
+
+                <div class="content_us">
+                    <div class="right">
+                        {% comment %} <div class="image-container">
+                            <img src="https://flourishskinclinic.com/img/dr-kayani-katkar-abt.png" alt="Dr. Kalyani Katkar" />
+                        </div> {% endcomment %}
+                    </div>
+       
+                    
+
+
+
+
+                    <div class="left">
+                        <div class="point">
+                            <!-- <span class="icon">✔✔</span> -->
+                            <div class="text">
+                                <h3>🍽️ Pure Vegetarian Cuisine</h3>
+                                <p>Delicious Indian dishes </p>
+                                <p>South Indian, Punjabi, and Maharashtrian Thali</p>
+                                <p>Jain food options available</p>
+                            </div>
+                        </div>
+                        
+                        <div class="point">
+                            <!-- <span class="icon">✔✔</span> -->
+                            <div class="text">
+                                <h3>🪑 Family Dining Facility:</h3>
+                                <p>AC and Non-AC halls</p> 
+                                <p>Safe and comfortable environment for kids</p> 
+           
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <!-- <span class="icon">✔✔</span> -->
+                            <div class="text">
+                                <h3> 🥳 Party and Event Bookings:</h3>
+                                <p>Birthdays, Naming Ceremonies, Engagements, Kitty Parties.</p> 
+                                <p>Hall available for 25 to 100 people.</p> 
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <div class="text">
+                                <h3> ☕ Breakfast, Lunch, and Dinner Service:</h3>
+                                <p>Continuous service from morning to night.</p> 
+                                <p>Takeaway and parcel facilities available.</p> 
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <div class="text">
+                                <h3>📱 Online Ordering & WhatsApp Booking:</h3>
+                                <p>Order on WhatsApp: 9370995131.</p>  
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <div class="text">
+                                <h3>🅿️ Free Parking Facility:</h3>
+                                <p>Safe vehicle parking available near the hotel.</p>  
+                            </div>
+                        </div>
+
+
+                        <div class="point">
+                            <div class="text">
+                                <h3>🚻 Clean and Modern Washrooms:</h3>
+                                <p>Separate clean toilets for men and women.</p>  
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <div class="text">
+                                <h3>🧼 Cleanliness and Quality Assurance:</h3>
+                                <p>FSSAI-certified kitchen.</p> 
+                                <p>Daily sanitization</p> 
+                            </div>
+                        </div>
+
+                        <div class="point">
+                            <div class="text">
+                                <h3>👨‍👩‍👧‍👦 Special Thali/Menu for Families and Kids:</h3>
+                                <p>Light and healthy options for children.</p> 
+                            </div>
+                        </div>
+
+                            <div class="point">
+                            <div class="text">
+                                <h3>🌿 Garden Seating (if available):</h3>
+                                <p>Light and healthy options for children.</p> 
+                            </div>
+                        </div>
+                </div>
+
+                  
+                </div>
+            </div>    
+
+         
+        
+     <main>
+        <div class="services-heading">
+            <h2>SERVICES</h2>
+        </div>
+        <h2 style="font-weight: 900;">Our Services</h2>
+        <div class="product-grid">
+            {% for service in Service %}
+            <div class="product-card">
+             
+                <img src="{{ service.img1.url }}" alt="">
+                <h3 class="title">{{ service.title }}</h3>
+                <p class="sub_title">{{ service.paragraph }}</p>
+                <a href="{% url 'read_more' service.id %}" class="read_more">Read More <i class="fas fa-arrow-right" style="color: black;"></i></a>
+
+            </div>
+            {% endfor %}
+           
+        </div>
+    </main>       
+		<!-- Appointment Section -->
+        {% comment %} <section id="appointment" class="py-5 text-center appointment-section">
+            <div class="container">
+                <h2>Book an Appointment</h2>
+                <p>Experience the goodness of Flourish with our trained  <br>experts to guide you
+                    with our personalised treatments tailor made for your needs !</p>
+                    <a href="#">
+                        <button class="booknow_button">Book Now</button>
+                    </a>
+                    
+            </div>
+        </section>  {% endcomment %}
+        <!-- TEAM 
+
+
+        
+         
+            =================--> 
+            
+            <section id="team" class="team pb-5" style="margin-top: -70px;">
+                <div class="container">
+                    <div class="row mb-5">
+                        <div class="col-md-12 text-center mb-5">
+                            <div class="heading wow fadeInUp" data-wow-delay="0.3s">
+                                <h1>Product</h1>
+                                <div class="bord-bot"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %} <h2 class="blog">Blog</h2>  {% endcomment %}
+                    <div class="row" >
+                        {% for b in blog %}
+                        <div class="col-md-4 col-sm-6">
+                            <div class="our-team wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="pic">
+                                    {% if b.image.url is not none %}
+                                        <img src="{{ b.image.url }}">
+                                    {% else %}
+                                    <img src="" >
+                                    {% endif %}
+                                    <ul class="social">
+                                        <!-- <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li> -->
+                                    </ul>
+                                </div>
+                                <div class="team-content">
+                                  
+                                    <small class="post">{{ b.title }}</small>
+                                </div>
+                                <div class="team-layer">
+                                    <a href="{% url 'blog_dt' b.id %}" style="text-decoration: none; ">
+                                        <span class="post">{{ b.title }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                      
+                    </div>
+                </div>
+            </section>
+
+            {% include 'e_commerc/ProductSlider.html' %} 
+        <!-- TESTIMONIALS 
+            =================-->
+            <section id="testimonials" class="testimonials">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="testimonial-slider" class="owl-carousel owl-theme">
+                                {% for ts in testimonial %}
+                                <div class="testimonial">
+                                    <div class="pic">
+                                    {% if ts.image.url is not none %}
+                                        <img src="{{ ts.image.url }}">
+                                    {% else %}
+                                        <img src="">
+                                    {% endif %}
+                                    </div>
+                                    <p class="description">
+                                        {{ ts.description1 }}
+                                    </p>
+                                    <h3 class="title">{{ ts.title }}</h3>
+                                    <small class="post">- {{ ts.post }}</small>
+                                </div>
+                                {% endfor %}
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> 
+  
+        <!-- CONTACT FORM
+            =================-->
+            <section id="contact" class="contact pb-0" style="margin-bottom: -50px;">
+              <div class="container"> 
+                <div class="row mb-5">
+                    <div class="col-md-12 text-center">
+                        <div class="heading">
+                            <h1>Contact Us</h1>
+                            <div class="bord-bot"></div>
+                            <p class="desc">We would love to hear from you!</p>
+                        </div>
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <form  method="post">
+                        {% csrf_token %}
+                      <div class="row">
+                        <div class="col-md-6">  
+                          <div class="form-group">
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Your Name *" required data-validation-required-message="Please enter your name.">
+                            <p class="help-block text-danger"></p>
+                          </div>
+                          <div class="form-group">
+                            <input class="form-control" id="email" name="email" type="email" placeholder="Your Email *" required data-validation-required-message="Please enter your email address.">
+                            <p class="help-block text-danger"></p>
+                          </div>
+                          <div class="form-group">
+                            <input class="form-control" id="phone" name="phone" type="tel" placeholder="Your Phone *" required data-validation-required-message="Please enter your phone number.">
+                            <p class="help-block text-danger"></p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <textarea class="form-control" id="message" name="message" placeholder="Your Message *" required data-validation-required-message="Please enter a message."></textarea>
+                            <p class="help-block text-danger"></p>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 text-center">
+                          <div id="success"></div>
+                          <button  class="btn btn-general btn-greenish btn-xl text-uppercase" type="submit"  style="color:rgb(0, 0, 0); border-color: #fd7e14;">Send Message</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- FOOTER 
+                   =================-->
+                {% include 'footer.html' %}
+
+                <a href="#page-top" id="back-to-top" class="btn btn-sm btn-green btn-back-to-top  js-scroll-trigger hidden-sm hidden-xs" title="home" role="button">
+                    <i class="fa fa-angle-double-up"></i>
+                </a>
+               
+                
+                <div id="whatsapp-icon">
+                    <a href="https://wa.me/9370995131?text=Hi,%20I%20want%20to%20ask%20about%20(skin/hair/laser/slimming)%20_______.%0A%0AName:%20_______%0AAge:%20_______%0ACity:%20_______" 
+                    target="_blank">
+                     <img src="https://cdn.pixabay.com/photo/2015/08/03/13/58/whatsapp-873316_1280.png" alt="WhatsApp">
+                 </a>
+                </div>
+                
+                
+
+            </section>
+  
+        <script src="/static/js/popper.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/jquery.easing.min.js"></script>
+        <script src="/static/js/jquery.magnific-popup.min.js"></script> 
+        <script src="/static/js/owl.carousel.min.js"></script>
+        <script src="/static/js/jqBootstrapValidation.min.js"></script>
+        <script src="/static/js/contact_me.min.js"></script>
+        <script src="/static/js/wow.min.js"></script>
+        <script src="/static/js/app.js"></script>
+        <!--Start of Tawk.to Script-->
+            <!-- <script type="text/javascript">
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/5a6d77fc4b401e45400c7419/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+            })(); 
+            </script> -->
+        <!--End of Tawk.to Script-->
+
+        <!--service selecters-->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var dropdown = document.querySelector(".nav-item.dropdown");
+                dropdown.addEventListener("mouseover", function() {
+                    dropdown.classList.add("show");
+                    dropdown.querySelector(".dropdown-menu").classList.add("show");
+                });
+                dropdown.addEventListener("mouseleave", function() {
+                    dropdown.classList.remove("show");
+                    dropdown.querySelector(".dropdown-menu").classList.remove("show");
+                });
+            });
+            </script>
+            
+    </body>
+</html>

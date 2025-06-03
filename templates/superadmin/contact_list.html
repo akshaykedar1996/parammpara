@@ -1,0 +1,91 @@
+{% extends "superadmin/base_header.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<style>
+    .custom-header {
+  background-color: #1db3cc !important; /* Apna custom background color */
+  color: white !important;              /* Text color */
+}
+</style>
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-4">
+            <div class="card p-4 shadow">
+                <h3 class="mb-4">{{ title }}</h3>
+                <table class="table table-bordered table-striped">
+                    <thead class="custom-header">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact No</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr id="row-{{ contact.id }}">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.contact_no }}</td>
+                            <td>{{ contact.msg }}</td>
+                            <!-- <td>
+                                <span id="status-badge-{{ contact.id }}" class="badge {% if contact.status %}bg-success{% else %}bg-danger{% endif %}">
+                                    {% if contact.status %}Active{% else %}Inactive{% endif %}
+                                </span>
+                            </td> -->
+                            <td>
+                                <button onclick="toggleContactStatus({{ contact.id }})"
+                                        id="toggle-btn-{{ contact.id }}"
+                                        class="btn btn-sm {% if contact.status %}btn-danger{% else %}btn-success{% endif %}">
+                                    {% if contact.status %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="7">No Contacts Found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ jQuery (if not already included) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- ✅ AJAX Script -->
+<script>
+    function toggleContactStatus(contactId) {
+        $.ajax({
+            url: "{% url 'toggle_contact_status' 0 %}".replace("0", contactId),
+            type: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Update status badge
+                    $("#status-badge-" + contactId)
+                        .text(response.status_label)
+                        .removeClass("bg-success bg-danger")
+                        .addClass(response.badge_class);
+
+                    // Update button
+                    $("#toggle-btn-" + contactId)
+                        .text(response.button_text)
+                        .removeClass("btn-success btn-danger")
+                        .addClass(response.button_class);
+                }
+            },
+            error: function() {
+                alert("Something went wrong while updating status.");
+            }
+        });
+    }
+</script>
+{% endblock %}

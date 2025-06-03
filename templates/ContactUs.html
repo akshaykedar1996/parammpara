@@ -1,0 +1,230 @@
+
+{% extends "base_header.html" %}
+
+{% block title %}parammpara{% endblock %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Parammpara</title>
+    <style>
+       
+        .contact-header {
+            background: linear-gradient(135deg,#F4C430 0%, #e1d4ac 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .contact-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: #F4C430;
+            color: rgb(17, 17, 17);
+            width: 100%;
+        }
+        .clinic-card {
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .clinic-card p{
+            color: black;
+        }
+        iframe {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #ff6600;
+            outline: none;
+            background-color: #fff;
+            box-shadow: 0px 0px 5px rgba(255, 102, 0, 0.5);
+        }
+
+        .submit-btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #e65c00;
+            box-shadow: 0px 0px 5px rgba(255, 102, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .messages {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid #28a745;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #dc3545;
+}
+
+    </style>
+<script>
+document.querySelector("form").addEventListener("submit", function(e) {
+    let phone = document.getElementById("id_contact_no").value;
+    const phoneRegex = /^\+91\d{10}$/;
+
+    if (!phoneRegex.test(phone)) {
+        alert("Phone number must start with +91 and contain 10 digits.");
+        e.preventDefault();
+    }
+});
+</script>
+
+
+</head>
+<body>
+    <div class="contact-header">OWN A FRANCHISE</div>
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="contact-form">
+                    <h5>Get In Touch</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="id_name">Full Name</label>
+                            <input type="text" name="name" id="id_name" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="id_contact_no">Contact Number</label>
+                            <div style="display: flex; align-items: center;">
+                                
+                                <!-- Country Code Dropdown -->
+                                <select name="country_code" id="country_code" required
+                                    style="width: 100px; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 5px 0 0 5px;">
+                                    <option value="+91">+91 (India)</option>
+                                    <option value="+1">+1 (USA)</option>
+                                    <option value="+44">+44 (UK)</option>
+                                    <option value="+61">+61 (Australia)</option>
+                                    <option value="+971">+971 (UAE)</option>
+                                </select>
+
+
+                                <!-- Phone Number Input -->
+                                <input type="text" name="contact_no" id="id_contact_no" maxlength="10"
+                                    pattern="\d{10}" title="Enter 10-digit phone number" required
+                                    style="border-radius: 0 5px 5px 0; border-left: none; flex: 1; border: 1px solid #ccc; padding: 10px;">
+                            </div>
+                        </div>
+
+
+            
+                        <div class="form-group">
+                            <label for="id_email">Email Address</label>
+                            <input type="email" name="email" id="id_email" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="id_date">Booking Date</label>
+                            <input type="date" name="date" id="id_date" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="id_time">Booking Time</label>
+                            <input type="time" name="time" id="id_time" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="id_address">Address</label>
+                            <textarea name="address" id="id_address" rows="3" required></textarea>
+                        </div>
+            
+                        <button type="submit" class="submit-btn">Book Now</button>
+                    </form>
+                   
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="clinic-card">
+                    <h5><b>Pune</b></h5>
+                    <p>Pune416001, India</p>
+                    <p>11am - 7pm</p>
+                    <p><b>Phone:</b> 9421 189767 / 9158 921742</p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3132.8211745102383!2d74.231815315242!3d16.705023821857875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc101ca5dcae2d3%3A0x123456789!2sFlourish+Kolhapur!5e0!3m2!1sen!2sin!4v1649345678901"></iframe>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends "base_header.html" %}
+
+{% block title %}User Profile and Orders{% endblock %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <style>
+        .order-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    
+        .order-header {
+            background-color: #1db3cc; /* Secondary color */
+            color: #fff;
+            padding: 7px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            align-items: center;
+        }
+    
+        .order-info {
+            flex: 1;
+        }
+    
+        .order-header .btn {
+            background-color: #ffc107; /* Primary color */
+            border: none;
+            color: #000;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        .order-header .btn:hover {
+            background-color: #e0a800; /* Darker shade of primary */
+            color: #fff;
+        }
+    
+        .ml-auto {
+            margin-left: auto;
+        }
+    
+        .order-body {
+            padding: 20px;
+        }
+    
+        .order-image {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .order-details span {
+            display: block;
+        }
+    
+        /* ########## TABS ########## */
+        .profile-tabs .nav-tabs {
+            justify-content: center;
+            margin-top: 20px;
+            border-bottom: 2px solid #ffc107; /* Primary color border */
+        }
+    
+        .profile-tabs .nav-link {
+            color: #333;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+    
+        .profile-tabs .nav-link.active {
+            background-color: #1db3cc; /* Secondary color */
+            color: #fff;
+            border-color: #1db3cc;
+        }
+    
+        .nav-item a:hover {
+            background-color: #ffc107; /* Primary color on hover */
+            color: #000;
+        }
+    
+        .order-count {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            background-color: #ffc107; /* Primary color */
+            padding: 5px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            top: -3px;
+        }
+    
+        @media (max-width: 767px) {
+            .profile-tabs .nav-tabs {
+                flex-direction: column;
+                margin-top: 50px;
+            }
+    
+            .profile-tabs .nav-item {
+                text-align: center;
+            }
+    
+            .profile-tabs .nav-link {
+                border-radius: 5px;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+    
+            .order-count {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
+        h5{
+      font-size: 14px;
+    }
+    h1{
+        font-size: 20px;
+    }
+    </style>
+    
+</head>
+<body>
+    <br>
+    <br>
+
+    <div class="profile-tabs">
+        <ul class="nav nav-tabs" id="profileTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'All' %}active{% endif %}" id="all-orders-tab"
+                 href="{% url 'user_all_order' %}" role="tab" aria-selected="true">
+                All Orders <span class="order-count">{{ all_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'New Orders' %}active{% endif %}" id="new-orders-tab"
+                 href="{% url 'user_order_by_status' 'New Orders' %}" role="tab" aria-selected="false">
+                New Orders <span class="order-count">{{ new_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'Ready Orders' %}active{% endif %}" id="ready-orders-tab"
+                 href="{% url 'user_order_by_status' 'Ready Orders' %}" role="tab" aria-selected="false">
+                Ready Orders <span class="order-count">{{ ready_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'Shipped Orders' %}active{% endif %}" id="shipped-orders-tab"
+                 href="{% url 'user_order_by_status' 'Shipped Orders' %}" role="tab" aria-selected="false">
+                Shipped Orders <span class="order-count">{{ shipped_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'Delivered Orders' %}active{% endif %}" id="delivered-orders-tab"
+                 href="{% url 'user_order_by_status' 'Delivered Orders' %}" role="tab" aria-selected="false">
+                Delivered Orders <span class="order-count">{{ delivered_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'Cancelled Orders' %}active{% endif %}" id="cancel-orders-tab"
+                 href="{% url 'user_order_by_status' 'Cancelled Orders' %}" role="tab" aria-selected="false">
+                Cancelled Orders <span class="order-count">{{ cancelled_orders_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if selected_status == 'Failed Orders' %}active{% endif %}" id="failed-orders-tab"
+                 href="{% url 'user_order_by_status' 'Failed Orders' %}" role="tab" aria-selected="false">
+                Failed Orders <span class="order-count">{{ failed_orders_count }}</span>
+              </a>
+            </li>
+          </ul>
+    </div>
+</div>
+
+
+</div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Order List</h1>
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header d-flex align-items-center">
+                <div class="order-info">
+                    <h5>Order ID: {{ order.order_id }}</h5>
+                    <h5>Tracking ID: {{ order.tracking_id }}</h5>
+                </div>
+                {% if order.order_status != "New" %}
+                    {% if order.tracking_link  %}
+                        <a href="{{ order.tracking_link }}"  class="btn btn-primary btn-sm ml-auto"> {{ order.order_status }} Track Order</a>
+                    {% else %}
+                        <a href=""  class="btn btn-primary btn-sm ml-auto"> {{ order.order_status }} Track Order</a>
+                    {% endif %}
+                {% endif %}
+                
+            </div>
+            <div class="order-body row">
+                <div class="col-md-2">
+                    <img src="{{ order.img1.url }}" alt="Product Image" class="order-image">
+                </div>
+                <div class="col-md-10 order-details">
+                    <span><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</span>
+                    <span><strong>Address:</strong> {{ order.house_no }}, {{ order.street }}, {{ order.street1 }}, {{ order.street2 }}, {{ order.city }}, {{ order.region }}, {{ order.pin_code }}, {{ order.country }}</span>
+                    <span><strong>Order Type:</strong> {{ order.order_type }}</span>
+                    <span><strong>Total Amount:</strong> {{ order.total_amount }}</span>
+                    <span><strong>Price:</strong> {{ order.price }}</span>
+                    <span><strong>Quantity:</strong> {{ order.qty }}</span>
+                </div>
+            </div>
+        </div>
+        
+            {% empty %}
+            <li class="list-group-item">No orders found.</li>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,302 @@
+<style>
+    /* Slider Section */
+    .slider-section {
+      padding: 20px;
+      background-color: #fff;
+      position: relative;
+    }
+    
+    /* Slider Header */
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .slider-header h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    .slider-header a {
+      font-size: 16px;
+      color: #1db3cc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    /* Scroll Buttons */
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #1db3cc;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 50%;
+      z-index: 2;
+      transition: background-color 0.3s;
+    }
+    .scroll-btn:hover {
+      background-color: #138fa0;
+    }
+    .scroll-left {
+      left: 0;
+    }
+    .scroll-right {
+      right: 0;
+    }
+    
+    /* Product Cards Row */
+    .product-row {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 16px;
+      padding-bottom: 10px;
+    }
+    .product-row::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Product Card */
+    .product-card {
+      flex: 0 0 auto;
+      width: 240px;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    
+    transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    /* Product Content */
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .product-card .title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 8px 0 4px;
+    }
+    .product-card .price {
+      font-size: 14px;
+      color: #1db3cc;
+      font-weight: bold;
+    }
+    .product-card .old-price {
+      font-size: 12px;
+      text-decoration: line-through;
+      color: #aaa;
+      margin-left: 6px;
+    }
+    
+    /* Quantity and Add to Cart Section */
+    .button-container {
+      margin-top: 10px;
+    }
+   
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      background: #f1f1f1;
+      border-radius: 6px;
+      padding: 2px 4px;
+    }
+    
+    .qty-btn {
+      background: #1db3cc;
+      color: white;
+      font-size: 10px;
+      border: none;
+      padding: 3px 4px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    
+    .qty-btn:hover {
+      background: #fd7e14;
+    }
+    
+    .qty-input {
+      width: 30px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 400;
+      color: #333;
+    }
+    
+    .add-cart-btn {
+      background-color: #ffc107;
+      border: none;
+      padding: 7px 14px;
+      color: #333;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .add-cart-btn:hover {
+      background-color: #fd7e14;
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .slider-header h2 {
+        font-size: 20px;
+      }
+      .product-card {
+        width: 200px;
+      }
+    }
+    </style>
+    
+    <div class="slider-section">
+      <!-- Header -->
+      <div class="slider-header">
+        <h2>Featured Products</h2>
+        <a href="{% url 'all_products' %}">View All</a>
+      </div>
+    
+      <!-- Scroll Buttons -->
+      <button class="scroll-btn scroll-left" onclick="scrollLeft()">&#8249;</button>
+      <button class="scroll-btn scroll-right" onclick="scrollRight()">&#8250;</button>
+    
+      <!-- Product Cards -->
+      <div class="product-row" id="productRow">
+        {% for p in products %}
+        <div class="product-card">
+          <div class="product-container">
+            {% if p.quantity|add:0 == 0 %}
+              <div class="out-of-stock-badge">Out of Stock</div>
+            {% endif %}
+            <a href="{% url 'product-detail' p.Product_id %}">
+              {% if p.image1.url %}
+                <img src="{{ p.image1.url }}" alt="Product Image" class="product-image">
+              {% endif %}
+            </a>
+          </div>
+          <div class="title">{{ p.title }}</div>
+          <div class="price">₹{{ p.price }}<span class="old-price">₹{{ p.mrp }}</span></div>
+    
+          <!-- Quantity and Add to Cart Form -->
+          <div class="button-container">
+            <form id="addToCartForm" method="POST">
+              {% csrf_token %}
+              <div class="action-row">
+                <div class="quantity-selector">
+                  <button type="button" class="qty-btn minus">−</button>
+                  <input type="number" name="quantity" class="qty-input"  value="1" min="1">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button type="button" class="add-cart-btn" data-product-id="{{ p.Product_id }}" data-action="add_to_cart">Add to Cart</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <!-- Scroll & Quantity Script -->
+    <script>
+    function scrollLeft() {
+      document.getElementById('productRow').scrollBy({ left: -300, behavior: 'smooth' });
+    }
+    function scrollRight() {
+      document.getElementById('productRow').scrollBy({ left: 300, behavior: 'smooth' });
+    }
+    
+    // Quantity Increment/Decrement Script
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.product-card').forEach(function (card) {
+        const minusBtn = card.querySelector('.qty-btn.minus');
+        const plusBtn = card.querySelector('.qty-btn.plus');
+        const input = card.querySelector('.qty-input');
+    
+        minusBtn.addEventListener('click', () => {
+          let qty = parseInt(input.value);
+          if (qty > 1) input.value = qty - 1;
+        });
+    
+        plusBtn.addEventListener('click', () => {
+          let qty = parseInt(input.value);
+          input.value = qty + 1;
+        });
+      });
+    });
+    </script>
+    
+<script>
+  $(document).ready(function () {
+  
+  // Add to Cart and Buy Now Actions
+  $(".cart-button, .buy-button, .add-cart-btn").click(function () {
+    var action = $(this).data("action");
+    var productId = $(this).data("product-id");
+    var quantity = $(this).closest('form').find("input[name='quantity']").val();
+    var csrfToken = $("input[name='csrfmiddlewaretoken']").val();
+  
+    $.ajax({
+      url: "{% url 'add_to_cart' %}", // Ensure your URL is correct
+      type: "POST",
+      data: {
+        product_id: productId,
+        quantity: quantity,
+        action: action,
+        csrfmiddlewaretoken: csrfToken
+      },
+      success: function (response) {
+        if (response.success) {
+          if (action === 'buy_now') {
+            window.location.href = response.redirect_url;
+          } else {
+            location.reload();
+          }
+        } else {
+          if (response.redirect_url) {
+            window.location.href = response.redirect_url;
+          } else {
+            alert(response.message);
+          }
+        }
+      },
+      error: function () {
+        alert("An error occurred. Please try again.");
+      }
+    });
+  });
+  
+
+  
+  });
+  
+  </script>

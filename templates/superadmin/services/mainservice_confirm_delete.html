@@ -1,0 +1,17 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ service.title }}{% endblock %}
+
+{% block content %}
+<div class="pc-container"> 
+  <div class="pc-content">
+    <div class="container mt-4">
+      <h4>Are you sure you want to delete <strong>{{ service.title }}</strong>?</h4>
+      <form method="post">{% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'mainservice_list' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>    
+{% endblock %}

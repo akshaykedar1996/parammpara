@@ -1,0 +1,43 @@
+{% extends "superadmin/base_header.html" %}
+{% block title %}Testimonials{% endblock %}
+{% block content %}
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between mb-3">
+                <h3>Parammpara Testimonials List</h3>
+                <a href="{% url 'add_testimonial' %}" class="btn btn-success">+ Add New</a>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Post</th>
+                        <th>Image</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for testimonial in testimonials %}
+                    <tr>
+                        <td>{{ testimonial.title }}</td>
+                        <td>{{ testimonial.post }}</td>
+                        <td>
+                            {% if testimonial.image %}
+                            <img src="{{ testimonial.image.url }}" width="80">
+                            {% else %}-{% endif %}
+                        </td>
+                        <td>{{ testimonial.description1|truncatechars:100 }}</td>
+                        <td>
+                            <a href="{% url 'edit_testimonial' testimonial.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'delete_testimonial' testimonial.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

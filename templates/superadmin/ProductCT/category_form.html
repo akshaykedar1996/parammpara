@@ -1,0 +1,145 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }} | Parammpara{% endblock %}
+
+{% block content %}
+<style>
+    .form-wrapper {
+        max-width: 700px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-wrapper h1 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #444;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        transition: border 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #4caf50;
+        outline: none;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-success {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #45a049;
+    }
+
+    .btn-secondary {
+        background-color: #ccc;
+        color: #333;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #bbb;
+    }
+
+    .image-preview {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .image-preview img {
+        max-width: 100%;
+        height: auto;
+        max-height: 250px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .btn-group {
+            flex-direction: column;
+        }
+
+        .btn-group .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="form-wrapper">
+            <h1>{% if form.instance.pk %}Edit sub Category{% else %}Add sub Category{% endif %}</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small style="color: #888;">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div style="color: red; font-size: 14px;">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                {% if form.instance.pk and form.instance.image %}
+                    <div class="image-preview">
+                        <label>Current Image:</label><br>
+                        <img src="{{ form.instance.image.url }}" alt="Category Image">
+                    </div>
+                {% endif %}
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'category_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

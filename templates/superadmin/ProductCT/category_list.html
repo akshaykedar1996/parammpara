@@ -1,0 +1,37 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }} | Parammpara{% endblock %}
+
+{% block content %}
+
+
+<div class="pc-container"> 
+    <div class="pc-content">
+<h1>Main Categories</h1>
+<a href="{% url 'product_category_create' %}" class="btn btn-primary">Add Category</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in categories %}
+    <tr>
+      <td>{{ category.name }}</td>
+      <td>{{ category.description }}</td>
+      <td>{% if category.image %}<img src="{{ category.image.url }}" width="50" height="50">{% else %}No Image{% endif %}</td>
+      <td>
+        <a href="{% url 'category_update' category.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'category_delete' category.pk %}" class="btn btn-danger">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>    
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+
+{% extends "base_header.html" %}
+
+{% block title %}My website{% endblock %}
+
+{% block content %}
+<header id="home">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for image in images %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            {% for image in images %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}" style="background-image: url('{{ image.image.url }}');">
+                    <div class="home-content-box">
+                        <div class="home-content-box-inner text-center">
+                            <div class="home-heading animated fadeInDown">
+                                <h3>{{ image.title }}</h3>
+                            </div>
+                            <div class="home-btn wow fadeInUp" data-wow-delay="0.3s">
+                                <a class="js-scroll-trigger" href="#contact" role="button" title="View Our Work">
+                                    <button class="btn btn-lg btn-general btn-greenish">Book Now</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            {% endfor %}
+        </div> 
+    </div>
+</header>
+{% endblock %}

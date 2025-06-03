@@ -1,0 +1,99 @@
+{% extends "superadmin/base_header.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<style>
+    .custom-header {
+  background-color:rgba(126, 131, 128, 0.77) !important; /* Apna custom background color */
+  color: white !important;              /* Text color */
+}
+</style>
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-4">
+            <div class="card p-4 shadow">
+                <h3 class="mb-4">{{ title }}</h3>
+                <table class="table table-bordered table-striped">
+                    <thead class="custom-header" >
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Contact No</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in franchise %}
+                        <tr id="row-{{ app.id }}">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ app.name }}</td>
+                            <td>{{ app.contact_no }}</td>
+                            <td>{{ app.email }}</td>
+                            <td>{{ app.date }}</td>
+                            <td>{{ app.time }}</td>
+                            <td>{{ app.address }}</td>
+                            <!-- <td>
+                                <span id="status-badge-{{ app.id }}" class="badge {% if app.status %}bg-success{% else %}bg-danger{% endif %}">
+                                    {% if app.status %}Active{% else %}Inactive{% endif %}
+                                </span>
+                            </td> -->
+                            <td>
+                                <button onclick="toggleAppointmentStatus({{ app.id }})"
+                                    id="toggle-btn-{{ app.id }}"
+                                    class="btn btn-sm {% if app.status %}btn-danger{% else %}btn-success{% endif %}">
+                                    {% if app.status %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="9">No Contact Found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ✅ Include jQuery if not already -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- ✅ AJAX Script -->
+<script>
+function toggleAppointmentStatus(appId) {
+    $.ajax({
+        url: "{% url 'toggle_appointment_status' 0 %}".replace("0", appId),
+        type: "POST",
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+        success: function(response) {
+            if (response.success) {
+                // Update badge
+                $('#status-badge-' + appId)
+                    .text(response.status_label)
+                    .removeClass('bg-success bg-danger')
+                    .addClass(response.badge_class);
+
+                // Update button
+                $('#toggle-btn-' + appId)
+                    .text(response.button_text)
+                    .removeClass('btn-success btn-danger')
+                    .addClass(response.button_class);
+            }
+        },
+        error: function() {
+            alert("Error updating status");
+        }
+    });
+}
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }} | Parammpara{% endblock %}
+
+{% block content %}
+
+
+<div class="pc-container"> 
+    <div class="pc-content">
+
+        <div class="container-fluid">
+            <div class="card shadow p-4 ">
+                <h2 class="text-primary fw-bold mb-4">{{ title }}</h2>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Title Field -->
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="id_title"
+                            value="{{ form.title.value|default_if_none:'' }}">
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image Field -->
+                    <div class="mb-3">
+                        <label for="id_image" class="form-label">Image</label>
+                        <input type="file" name="image" class="form-control" id="id_image">
+                        {% if form.image.errors %}
+                            <div class="text-danger">{{ form.image.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save"></i> Save
+                        </button>
+                        <a href="{% url 'carousel_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

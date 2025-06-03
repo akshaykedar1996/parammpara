@@ -1,0 +1,27 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}Delete Carousel Image{% endblock %}
+
+{% block content %}
+<div class="pc-container"> 
+    <div class="pc-content">
+        <div class="container">
+            <div class="card shadow-lg p-4 ">
+                <h2 class="text-danger mb-4">Delete Confirmation</h2>
+
+                <p class="fs-5 mb-4">Are you sure you want to delete <strong>"{{ image.title }}"</strong>?</p>
+
+                <form method="post" class="d-flex gap-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Yes, Delete
+                    </button>
+                    <a href="{% url 'carousel_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

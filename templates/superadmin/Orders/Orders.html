@@ -1,0 +1,341 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}Orders | Parammpara{% endblock %}
+
+{% block content %}
+
+
+    <style>
+        .order-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    
+        .order-header {
+            background-color: #1db3cc; /* Secondary color */
+            color: #fff;
+            padding: 7px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            align-items: center;
+        }
+    
+        .order-info {
+            flex: 1;
+        }
+    
+        .order-header .btn {
+            background-color: #ffc107; /* Primary color */
+            border: none;
+            color: #000;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        .order-header .btn:hover {
+            background-color: #e0a800; /* Darker shade of primary */
+            color: #fff;
+        }
+    
+        .ml-auto {
+            margin-left: auto;
+        }
+    
+        .order-body {
+            padding: 20px;
+        }
+    
+        .order-image {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .order-details span {
+            display: block;
+        }
+    
+        /* ########## TABS ########## */
+        .profile-tabs .nav-tabs {
+            justify-content: center;
+            margin-top: 20px;
+            border-bottom: 2px solid #ffc107; /* Primary color border */
+        }
+    
+        .profile-tabs .nav-link {
+            color: #333;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+    
+        .profile-tabs .nav-link.active {
+            background-color: #1db3cc; /* Secondary color */
+            color: #fff;
+            border-color: #1db3cc;
+        }
+    
+        .nav-item a:hover {
+            background-color: #ffc107; /* Primary color on hover */
+            color: #000;
+        }
+    
+        .order-count {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            background-color: #ffc107; /* Primary color */
+            padding: 5px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            top: -3px;
+        }
+    
+        @media (max-width: 767px) {
+            .profile-tabs .nav-tabs {
+                flex-direction: column;
+                margin-top: 50px;
+            }
+    
+            .profile-tabs .nav-item {
+                text-align: center;
+            }
+    
+            .profile-tabs .nav-link {
+                border-radius: 5px;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+    
+            .order-count {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
+        h5{
+      font-size: 14px;
+    }
+    h1{
+        font-size: 20px;
+    }    h5{
+              font-size: 14px;
+            }
+            h1{
+                font-size: 20px;
+            }
+            .order-action-btn {
+    background-color: #1db3cc;
+    color: #292626;
+    border: none;
+    padding: 8px 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-action-btn:hover {
+    background-color: #0a91a1;
+    color: #fff;
+}
+
+.accept-order {
+    background-color: #28a745;
+}
+
+.accept-order:hover {
+    background-color: #218838;
+}
+
+.ship-order {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.ship-order:hover {
+    background-color: #e0a800;
+}
+
+.deliver-order {
+    background-color: #007bff;
+}
+
+.deliver-order:hover {
+    background-color: #0069d9;
+}
+label{
+    color: #000;
+}
+span{
+    color: #000;
+}
+    </style>
+    
+
+<div class="pc-container"> 
+    <div class="pc-content">
+     
+          
+            <div class="profile-tabs">
+                <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'All' %}active{% endif %}" id="all-orders-tab"
+                         href="{% url 'orders' %}" role="tab" aria-selected="true">
+                        All Orders <span class="order-count">{{ all_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'New Orders' %}active{% endif %}" id="new-orders-tab"
+                         href="{% url 'admin_order_by_status' 'New Orders' %}" role="tab" aria-selected="false">
+                        New Orders <span class="order-count">{{ new_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'Ready Orders' %}active{% endif %}" id="ready-orders-tab"
+                         href="{% url 'admin_order_by_status' 'Ready Orders' %}" role="tab" aria-selected="false">
+                        Ready Orders <span class="order-count">{{ ready_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'Shipped Orders' %}active{% endif %}" id="shipped-orders-tab"
+                         href="{% url 'admin_order_by_status' 'Shipped Orders' %}" role="tab" aria-selected="false">
+                        Shipped Orders <span class="order-count">{{ shipped_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'Delivered Orders' %}active{% endif %}" id="delivered-orders-tab"
+                         href="{% url 'admin_order_by_status' 'Delivered Orders' %}" role="tab" aria-selected="false">
+                        Delivered Orders <span class="order-count">{{ delivered_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'Cancelled Orders' %}active{% endif %}" id="cancel-orders-tab"
+                         href="{% url 'admin_order_by_status' 'Cancelled Orders' %}" role="tab" aria-selected="false">
+                        Cancelled Orders <span class="order-count">{{ cancelled_orders_count }}</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if selected_status == 'Failed Orders' %}active{% endif %}" id="failed-orders-tab"
+                         href="{% url 'admin_order_by_status' 'Failed Orders' %}" role="tab" aria-selected="false">
+                        Failed Orders <span class="order-count">{{ failed_orders_count }}</span>
+                      </a>
+                    </li>
+                  </ul>
+            </div>
+      
+
+            <div class="container mt-5">
+                <h1 class="mb-4">Order List</h1>
+                {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header d-flex align-items-center">
+                        <div class="order-info">
+                            <style>
+                                .order-link {
+                                  text-decoration: none;
+                                  color: #ffffff;
+                                  transition: all 0.3s ease-in-out;
+                                }
+                              
+                                .order-link:hover {
+                                  color: #e31313; /* Change this color as per your theme */
+                                  text-decoration: none;
+                                  transform: translateX(3px); /* Optional smooth effect */
+                                }
+                              </style>
+                              
+                              <a href="{% url 'order-invoice' order.order_id %}" >
+                                <h5 class="order-link">Order ID: {{ order.order_id }}</h5>
+                              </a>
+                              
+                            <h5>Tracking ID: {{ order.tracking_id }}</h5>
+                        </div>
+                        {% if order.order_status != "New" %}
+                            {% if order.tracking_link  %}
+                                <a href="{{ order.tracking_link }}"  class="btn btn-primary btn-sm ml-auto"> {{ order.order_status }} Track Order</a>
+                            {% else %}
+                                <a href=""  class="btn btn-primary btn-sm ml-auto"> {{ order.order_status }} Track Order</a>
+                            {% endif %}
+                        {% endif %}
+                        
+                    </div>
+                    <div class="order-body row">
+                        <div class="col-md-2">
+                            <img src="{{ order.img1.url }}" alt="Product Image" class="order-image">
+                        </div>
+                        <div class="col-md-10 order-details">
+                            <span><strong>SKU Code:</strong> {{ order.sku_code }} </span>
+                            <span><strong>Order Date:</strong> {{ order.order_date }} </span>
+                            <span><strong>Title:</strong> {{ order.title }} </span>
+                            <span><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</span>
+                            <span><strong>Mobile number:</strong> {{ order.mobile_number }} </span>
+                            <span><strong>Address:</strong> {{ order.house_no }}, {{ order.street }}, {{ order.street1 }}, {{ order.street2 }}, {{ order.city }}, {{ order.region }}, {{ order.pin_code }}, {{ order.country }}</span>
+                            <span><strong>Order Type:</strong> {{ order.order_type }}</span>
+                            {% if order.order_type == 'Prepaid' %}
+                            <span><strong>payment_id:</strong> {{ order.payment_id }}</span>
+                            {% endif %}
+                            
+                            <span><strong>Total Amount:</strong> {{ order.total_amount }}</span>
+                            <span><strong>Price:</strong> {{ order.price }}</span>
+                            <span><strong>Quantity:</strong> {{ order.qty }}</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        {% if order.order_status == "New Orders" %}
+                            <form action="{% url 'update_order_status' %}" method="get">
+                                <input type="hidden" name="action" value="accept">
+                                <input type="hidden" name="id" value="{{ order.order_id }}">
+                                <button type="submit" class="order-action-btn accept-order">Accept Order</button>
+                            </form>
+                    
+                        {% elif order.order_status == "Ready Orders" %}
+                            <form action="{% url 'update_order_status' %}" method="get">
+                                <input type="hidden" name="action" value="ship">
+                                <input type="hidden" name="id" value="{{ order.order_id }}">
+                    
+                                <label for="tracking_link_{{ order.order_id }}">Tracking Link</label>
+                                <input type="text" name="link" id="tracking_link_{{ order.order_id }}" required>
+                    
+                                <label for="tracking_id_{{ order.order_id }}">Tracking ID</label>
+                                <input type="text" name="tracking_id" id="tracking_id_{{ order.order_id }}" required>
+                    
+                                <button type="submit" class="order-action-btn ship-order">Ship Order</button>
+                            </form>
+                    
+                        {% elif order.order_status == "Shipped Orders" %}
+                            <form action="{% url 'update_order_status' %}" method="get">
+                                <input type="hidden" name="action" value="deliver">
+                                <input type="hidden" name="id" value="{{ order.order_id }}">
+                                <button type="submit" class="order-action-btn deliver-order">Deliver Order</button>
+                            </form>
+                        {% endif %}
+                    
+                        {% if order.order_status != "Cancelled Orders" %}
+                            <form action="{% url 'update_order_status' %}" method="get">
+                                <input type="hidden" name="action" value="cancel">
+                                <input type="hidden" name="id" value="{{ order.order_id }}">
+                                <button type="submit" class="order-action-btn cancel-order">Cancel Order</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                    {% empty %}
+                    <li class="list-group-item">No orders found.</li>
+                {% endfor %}
+            </div>
+    
+        </div>
+</div>
+
+{% endblock %}
+   
+        

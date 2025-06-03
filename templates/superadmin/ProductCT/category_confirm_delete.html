@@ -1,0 +1,19 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }} | Parammpara{% endblock %}
+
+{% block content %}
+
+
+<div class="pc-container"> 
+    <div class="pc-content">
+      <h1>Delete Main Category</h1>
+      <p>Are you sure you want to delete "{{ category.name }}"?</p>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'subcategory_list' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+</div>    
+</div>
+{% endblock %}

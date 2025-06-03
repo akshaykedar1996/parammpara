@@ -1,0 +1,304 @@
+{% extends "base_header.html" %}
+
+{% block title %}Parammpara Cart{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+ 
+    <style>
+      
+
+       
+        .table img {
+            width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .quantity-select {
+            width: 60px;
+        }
+        th{
+            color: rgb(124, 124, 124);
+        }
+        .btn {
+            background-color: #02a7c4;
+            border-radius: 45px;
+            color: white;
+        }
+        .btn:hover {
+            color: #fff;
+        }
+
+        
+        .messages {
+    list-style-type: none; /* Removes bullet points */
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color:  #155724;
+}
+
+.message {
+    margin: 5px 0;
+    padding: 8px 15px;
+    background-color: #dff0d8; /* Light green background */
+    border: 1px solid #c3e6cb; /* Green border */
+    color: #155724; /* Dark green text */
+    border-radius: 4px;
+}
+@media (max-width: 768px) {
+.messages {
+    
+    padding: 20px;
+
+    font-size: 13px;
+   
+}
+}
+.action-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        
+        .quantity-selector {
+          display: flex;
+          align-items: center;
+          background: #f1f1f1;
+          border-radius: 10px;
+          padding: 2px 6px;
+        }
+        
+        .qty-btn {
+          background: #1db3cc;
+          color: white;
+          font-size: 14px;
+          border: none;
+          padding: 4px 6px;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: background 0.3s ease;
+        }
+        
+        .qty-btn:hover {
+          background: #fd7e14;
+        }
+        
+        .qty-input {
+          width: 50px;
+          text-align: center;
+          border: none;
+          background: transparent;
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+        }
+        .remove-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-button i {
+  font-size: 20px;
+  color: #1db3cc;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.remove-button:hover {
+  transform: scale(1.1);
+}
+
+.remove-button:hover i {
+  color: #fd7e14;
+}
+
+        
+    </style>
+
+    
+<style>
+    .custom-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+  
+    .custom-btn:hover {
+      background-color: #0056b3;
+      transform: translateY(-3px);
+    }
+  
+    h5 {
+      margin: 0;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+    <div class="container-fluid" style="margin-top: 20px;">
+        <!-- <h1 class="text-center mb-4">Cart</h1> -->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Products</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_product %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ item.img1.url }}" alt="{{ item.title }}" class="mr-3">
+                                        <span>{{ item.title }}</span>
+                                    </div>
+                                </td>
+                                <td style="font-weight: 500;">₹{{ item.price }}</td>
+                                <td> 
+                                    <form method="post" class="cart-form">
+                                        {% csrf_token %}
+                                        <div class="d-flex align-items-center">
+                                          <div class="quantity-selector" data-item-id="{{ item.id }}">
+                                            <button type="button" class="qty-btn minus" value="{{ item.id }}">−</button>
+                                            <input type="number" name="quantity" class="qty-input" value="{{ item.total_qty }}" min="1">
+                                            <button type="button" class="qty-btn plus" value="{{ item.id }}">+</button>
+                                          </div>
+                                      
+                                          <!-- Remove Button -->
+                                          <button class="remove-button" type="button" value="{{ item.id }}" name="remove" style="background: none; border: none; outline: none;"> 
+                                            <i class="fa fa-trash-o" style="margin-left: 20px; font-size: 20px;"></i>
+                                          </button>
+                                        </div>
+                                      </form>
+                                      
+                                </td>
+                                
+                                <td class="product-total" style="color: #2f2d2d; font-weight: 600; font-size: 18px;">₹{{ item.total_amount }}</td>
+                           
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mt-4" style="gap: 40px;">
+                    <h5>Total: <span id="cart-total">₹{{ cart_total }}</span></h5>
+                    <a href="{% url 'Check_out' %}">
+                      <button class="btn custom-btn">Check Out</button>
+                    </a>
+                  </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  
+  <script>
+   document.addEventListener('DOMContentLoaded', function () {
+  // Update Quantity
+  document.querySelectorAll('.qty-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const selector = this.closest('.quantity-selector');
+      const input = selector.querySelector('.qty-input');
+      const itemId = this.value;
+      const action = this.classList.contains('plus') ? 'plus' : 'minus';
+      
+      // Adjust quantity
+      if (action === 'plus') {
+        input.value = parseInt(input.value) + 1;
+      } else if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+      }
+
+      updateCart(itemId, input.value);
+    });
+  });
+
+  // Remove Item
+  document.querySelectorAll('.remove-button').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const itemId = this.value;
+      removeFromCart(itemId);
+    });
+  });
+
+  // Update Cart AJAX
+  function updateCart(itemId, quantity) {
+    fetch(`/update_cart/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ itemId: itemId, quantity: quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        location.reload();
+      } else {
+        alert('Error: ' + data.error);
+      }
+    });
+  }
+
+  // Remove from Cart AJAX
+  function removeFromCart(itemId) {
+    fetch(`/remove_cart/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ itemId: itemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        location.reload();
+      } else {
+        alert('Error: ' + data.error);
+      }
+    });
+  }
+});
+
+  </script>
+</body>
+</html>
+{% endblock %}

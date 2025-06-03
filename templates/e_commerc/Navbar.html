@@ -1,0 +1,257 @@
+<!-- Navbar HTML -->
+<nav class="navbar custom-navbar">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <a class="navbar-brand fs-4 text-dark" href="{% url 'all_products' %}" title="MyShop">
+      <i class="fa-solid fa-store" style="color: #ffc107;"></i>
+    </a>
+
+    <!-- Icons-only Navbar Menu -->
+    <ul class="navbar-nav navbar-nav2 flex-row align-items-center gap-3" id="dynamic-navbar">
+      <!-- Content will load via AJAX -->
+    </ul>
+  </div>
+</nav>
+
+<!-- Dropdown Outside Navbar (Popup style) -->
+<div class="custom-dropdown-popup" id="customDropdownPopup">
+  <ul id="popupCategoryList"></ul>
+</div>
+
+<!-- jQuery & FontAwesome -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "{% url 'load_navbar_data' %}",
+      method: "GET",
+      success: function (response) {
+        let html = '';
+
+        // Products
+        html += `<li class="nav-item">
+          <a class="nav-link icon-link" href="{% url 'all_products' %}" title="Products">
+            <i class="fa-solid fa-bag-shopping"></i>
+          </a>
+        </li>`;
+
+        // Categories Icon Only (Click + Hover Based Dropdown)
+        html += `
+        <li class="nav-item position-relative">
+          <a class="nav-link icon-link" id="popupCategoryBtn" title="Categories">
+       <i class="fa-solid fa-list"></i>
+
+          </a>
+        </li>`;
+
+        // Cart
+        html += `<li class="nav-item position-relative">
+          <a class="nav-link icon-link" href="{% url 'Cart-dt' %}" title="Cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            ${response.cart_count > 0 ? `<span class="cart-badge">${response.cart_count}</span>` : ''}
+          </a>
+        </li>`;
+
+        // Profile/Login
+        html += `<li class="nav-item">
+          <a class="nav-link icon-link" href="{% url 'profile' %}"
+            title="${response.is_authenticated ? response.username : 'Login'}">
+            <i class="fa-solid fa-circle-user"></i>
+          </a>
+        </li>`;
+
+        $('#dynamic-navbar').html(html);
+
+        // Load categories in external popup dropdown
+        if (response.categories && response.categories.length > 0) {
+          let categoryList = '';
+          response.categories.forEach(cat => {
+            categoryList += `<li><a href="/category/${cat.name}/">${cat.name}</a></li>`;
+          });
+          $('#popupCategoryList').html(categoryList);
+        }
+
+        // Toggle on click
+        $('#popupCategoryBtn').on('click', function (e) {
+          e.stopPropagation();
+          $('#customDropdownPopup').toggleClass('show');
+          const offset = $(this).offset();
+          $('#customDropdownPopup').css({
+            top: offset.top + 30,
+            left: offset.left - 80
+          });
+        });
+
+        // Hover functionality (optional)
+        $('#popupCategoryBtn').hover(function () {
+          const offset = $(this).offset();
+          $('#customDropdownPopup').css({
+            top: offset.top + 30,
+            left: offset.left - 80
+          }).addClass('show');
+        }, function () {
+          setTimeout(() => {
+            if (!$('#customDropdownPopup').is(':hover')) {
+              $('#customDropdownPopup').removeClass('show');
+            }
+          }, 300);
+        });
+
+        $('#customDropdownPopup').mouseleave(function () {
+          $('#customDropdownPopup').removeClass('show');
+        });
+
+        // Close if clicked outside
+        $(document).click(function (e) {
+          if (!$(e.target).closest('#customDropdownPopup').length && !$(e.target).closest('#popupCategoryBtn').length) {
+            $('#customDropdownPopup').removeClass('show');
+          }
+        });
+      }
+    });
+  });
+</script>
+
+<!-- CSS Styling -->
+<style>
+
+  .custom-navbar {
+    background: #ffffffc4;
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    margin: 10px auto;
+    max-width: 98%;
+    height: 30px;
+   
+     /* 👉 Add this line for bottom shadow */
+ 
+  }
+
+  .navbar-nav .nav-link {
+    color: #ffc107;
+    padding: 10px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: #ebeef0;
+    color: #1db3cc;
+    transform: scale(1.1);
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 0px;
+    right: -4px;
+    background-color: crimson;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+  }
+
+  .navbar-nav2 {
+    gap: 1.5rem;
+    margin-top: -6px;
+  }
+
+  .icon-link i {
+    font-size: 18px;
+  }
+
+  .navbar-brand {
+    margin-top: -6px;
+  }
+
+  .navbar-brand i {
+    font-size: 18px;
+  }
+
+  /* Popup Dropdown Outside Navbar */
+  .custom-dropdown-popup {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 180px;
+    display: none;
+    z-index: 9999;
+    margin-top: 10px;
+  }
+
+  .custom-dropdown-popup.show {
+    display: block;
+  }
+
+  .custom-dropdown-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .custom-dropdown-popup li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .custom-dropdown-popup li a:hover {
+    background: #f4f4f4;
+    color: #1db3cc;
+  }
+
+  @media (max-width: 576px) {
+    .navbar-brand {
+      font-size: 22px;
+    }
+
+    .navbar-nav {
+      gap: 1rem;
+    }
+  }
+  
+</style>
+<style>
+  /* Change icon color for category icon specifically */
+  #popupCategoryBtn i {
+    color: #ffc107; /* Replace with your desired color */
+  }
+
+  /* Optional: Change color on hover */
+  #popupCategoryBtn:hover i {
+    color: #1db3cc; /* Color on hover */
+  }
+</style>
+<style>
+  .product-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .product-image {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .out-of-stock-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 0, 0.521);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 10;
+    pointer-events: none;
+  }
+</style>

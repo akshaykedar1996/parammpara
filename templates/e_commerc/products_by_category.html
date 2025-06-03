@@ -1,0 +1,400 @@
+{% extends "base_header.html" %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <style>
+        .product-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 25px;
+          padding: 30px;
+        }
+        
+        .product-card {
+            max-width: 280px;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          padding: 20px;
+          text-align: center;
+          transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+          transform: translateY(-5px);
+        }
+        
+        .product-image {
+          width: 100%;
+          height: 180px;
+          object-fit: contain;
+          margin-bottom: 12px;
+        }
+        
+        .title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 5px;
+        }
+        
+        .sub_title {
+          font-size: 14px;
+          color: #777;
+          margin-bottom: 10px;
+        }
+        
+        .product-price {
+          font-size: 18px;
+          font-weight: bold;
+          color: #1db3cc;
+          margin-bottom: 10px;
+        }
+        
+        .old-price {
+          font-size: 14px;
+          color: #999;
+          text-decoration: line-through;
+          margin-left: 8px;
+        }
+        
+        .button-container {
+          margin-top: 12px;
+        
+        }
+        
+        .action-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        
+        .quantity-selector {
+          display: flex;
+          align-items: center;
+          background: #f1f1f1;
+          border-radius: 10px;
+          padding: 2px 6px;
+        }
+        
+        .qty-btn {
+          background: #1db3cc;
+          color: white;
+          font-size: 14px;
+          border: none;
+          padding: 4px 6px;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: background 0.3s ease;
+        }
+        
+        .qty-btn:hover {
+          background: #fd7e14;
+        }
+        
+        .qty-input {
+          width: 50px;
+          text-align: center;
+          border: none;
+          background: transparent;
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+        }
+        
+        .add-cart-btn {
+          background-color: #ffc107;
+          border: none;
+          padding: 8px 16px;
+          color: #333;
+          border-radius: 10px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+        
+        .add-cart-btn:hover {
+          background-color: #fd7e14;
+          color: white;
+        }
+        </style>
+    
+ 
+ <style>
+    .category-scroll-wrapper {
+        position: relative;
+        padding: 20px 40px;
+        background-color: #f3f3f3db;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    
+    .category-scroll {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 10px;
+        justify-content: center;
+    }
+
+    
+    .category-scroll::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .category-card {
+        min-width: 110px;
+        max-width: 110px;
+        text-align: center;
+        background: #f9f9f9;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    /* ✅ Only for first card */
+/* .category-card:first-child {
+    margin-left: 110px;
+} */
+    .category-card:hover {
+        transform: translateY(-4px);
+        background-color: #eef6ff;
+    }
+    
+    .category-card img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 8px;
+    }
+    
+    .category-card p {
+        font-size: 13px;
+        color: #333;
+        margin: 0;
+        font-weight: 500;
+    }
+    
+    /* Arrow Buttons */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #ffffff;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+    }
+    
+    .scroll-btn:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .scroll-left {
+        left: 10px;
+    }
+    
+    .scroll-right {
+        right: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .category-card {
+            min-width: 90px;
+            max-width: 90px;
+            padding: 8px;
+        }
+    
+        .category-card img {
+            width: 50px;
+            height: 50px;
+        }
+    
+        .category-card p {
+            font-size: 12px;
+        }
+    }
+    </style>
+</head>
+<body>
+    
+    <main>
+        
+        <div class="category-scroll-wrapper">
+            <!-- Left Arrow -->
+                <button class="scroll-btn scroll-left" onclick="scrollCategory(-200)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="category-scroll" id="subcategoryScroll2">
+                    {% for c in categories %}
+                    <div class="category-card">
+                        <a href="{% url 'sub-category-filter' c.name %}">
+                            {% if c.image %}
+                            <img src="{{ c.image.url }}" alt="{{ c.name }}">
+                            {% endif %}
+                            <p>{{ c.name }}</p>
+                        </a>
+                    </div>
+                    {% endfor %}
+                 
+                </div>
+                <!-- Right Arrow -->
+                <button class="scroll-btn scroll-right" onclick="scrollCategory(200)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+        
+        
+ 
+         
+ 
+     <!-- 📦 Product Grid -->
+<div class="product-grid">
+    {% for p in products %}
+    <div class="product-card">
+      <div class="product-container">
+        {% if p.quantity|add:0 == 0 %}
+          <div class="out-of-stock-badge">Out of Stock</div>
+        {% endif %}
+        <a href="{% url 'product-detail' p.Product_id %}">
+          {% if p.image1.url %}
+            <img src="{{ p.image1.url }}" alt="Product Image" class="product-image">
+          {% endif %}
+        </a>
+      </div>
+      <h3 class="title">{{ p.title }}</h3>
+      <p class="sub_title">{{ p.sub_title }}</p>
+      <div class="product-price">₹{{ p.price }} <span class="old-price">₹{{ p.mrp }}</span></div>
+  
+      <div class="button-container">
+        <!-- <form id="addToCartForm" method="POST">
+          {% csrf_token %}
+          <div class="action-row">
+              <div class="quantity-selector">
+                  <button type="button" class="qty-btn minus">−</button>
+                  <input type="number" name="quantity" class="qty-input" value="1" min="1">
+                  <button type="button" class="qty-btn plus">+</button>
+              </div>
+              <button type="button" class="add-cart-btn" data-product-id="{{ p.Product_id }}">Add to Cart</button>
+          </div>
+      </form> -->
+
+          <!-- Add to Cart Form -->
+          <form id="addToCartForm" method="POST">
+            {% csrf_token %}
+            <div class="action-row">
+              <div class="quantity-selector">
+                <button type="button" class="qty-btn minus">−</button>
+                <input type="number" name="quantity" class="qty-input"  value="1" min="1">
+                <button type="button" class="qty-btn plus">+</button>
+              </div>
+              <button type="button" class="add-cart-btn" data-product-id="{{ p.Product_id }}" data-action="add_to_cart">Add to Cart</button>
+            </div>
+          </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+    </main>
+</body>
+
+<script>
+    function scrollCategory(direction) {
+        const container = document.getElementById('subcategoryScroll2');
+        container.scrollBy({ left: direction, behavior: 'smooth' });
+    }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const selectors = document.querySelectorAll('.quantity-selector');
+  
+      selectors.forEach(function (selector) {
+        const input = selector.querySelector('.qty-input');
+        const plus = selector.querySelector('.plus');
+        const minus = selector.querySelector('.minus');
+  
+        plus.addEventListener('click', function () {
+          input.value = parseInt(input.value) + 1;
+        });
+  
+        minus.addEventListener('click', function () {
+          if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+          }
+        });
+      });
+    });
+  </script>
+
+  
+<script>
+  $(document).ready(function () {
+  
+  // Add to Cart and Buy Now Actions
+  $(".cart-button, .buy-button, .add-cart-btn").click(function () {
+    var action = $(this).data("action");
+    var productId = $(this).data("product-id");
+    var quantity = $(this).closest('form').find("input[name='quantity']").val();
+    var csrfToken = $("input[name='csrfmiddlewaretoken']").val();
+  
+    $.ajax({
+      url: "{% url 'add_to_cart' %}", // Ensure your URL is correct
+      type: "POST",
+      data: {
+        product_id: productId,
+        quantity: quantity,
+        action: action,
+        csrfmiddlewaretoken: csrfToken
+      },
+      success: function (response) {
+        if (response.success) {
+          if (action === 'buy_now') {
+            window.location.href = response.redirect_url;
+          } else {
+            location.reload();
+          }
+        } else {
+          if (response.redirect_url) {
+            window.location.href = response.redirect_url;
+          } else {
+            alert(response.message);
+          }
+        }
+      },
+      error: function () {
+        alert("An error occurred. Please try again.");
+      }
+    });
+  });
+  
+  // Quantity Control for both forms
+ 
+  
+  });
+  
+  </script>
+</html>
+{% endblock %}
