@@ -72,9 +72,9 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                 </div>
               </div>
             </div>  -->
-
-            <nav class="navbar navbar-expand-lg navbar-danger" id="mainNav" data-toggle="affix">
-              <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:white" id="mainNav" data-toggle="affix">
+              <div class="container-fluid" style="background-color:white">
+           
               	<a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}">
                     <div style="width: 150px; height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                         <img src="/static/img/logo.jpg" style="width: 100%; height: auto;" alt="" class="img-fluid">
@@ -181,7 +181,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                     <div class="row text-center">
                      
                         {% for service in services %}
-                            <div class="col-md-3 col-sm-6" style="margin-top: 10px;">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="service-cont wow fadeInUp" data-wow-delay="0.3s">
                                     {% if service.image.url is not none %}
                                     <img src="{{ service.image.url }}" alt="{{ service.title }}" class="img-fluid">
@@ -212,116 +212,82 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                 </div>
             </section>
 
-        <!-- Why Choose Us
-            =================-->
-        
+        <!-- Why Choose Us =================-->
 
         <section class="why-choose-us">
-            <div class="container">
-                {% comment %} <h2 class="section-title">Why Choose Us?</h2> {% endcomment %}
-                {% comment %} <p class="sub-heading">
-                    In order to give patients stress-free solutions to any skin and hair issues they may be having, 
-                    renowned cosmetologist <strong>Dr. Kalyani Katkar</strong>, founded the Flourish Clinic.
-                </p> {% endcomment %}
-
-                <div class="content_us">
-                    <div class="right">
-                        {% comment %} <div class="image-container">
-                            <img src="https://flourishskinclinic.com/img/dr-kayani-katkar-abt.png" alt="Dr. Kalyani Katkar" />
-                        </div> {% endcomment %}
+            <div class="container my-5">
+                <!-- Group 1 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6 text-center">
+                        <img src="/static/img/parammpara2.jpg" alt="Veg Cuisine" class="img-fluid rounded shadow" />
                     </div>
-       
-                    
 
-
-
-
-                    <div class="left">
+                    <div class="col-md-6">
                         <div class="point">
-                            <!-- <span class="icon">✔✔</span> -->
                             <div class="text">
                                 <h3>🍽️ Pure Vegetarian Cuisine</h3>
-                                <p>Delicious Indian dishes </p>
+                                <p>Delicious Indian dishes</p>
                                 <p>South Indian, Punjabi, and Maharashtrian Thali</p>
                                 <p>Jain food options available</p>
                             </div>
                         </div>
-                        
+                    </div>
+               
+                </div>
+
+                <!-- Group 2 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6 text-center">
+                        <img src="/static/img/garden_parammpara.jpg" alt="Family Dining" class="img-fluid rounded shadow" />
+                    </div>
+                    
+                    <div class="col-md-6">
                         <div class="point">
-                            <!-- <span class="icon">✔✔</span> -->
                             <div class="text">
                                 <h3>🪑 Family Dining Facility:</h3>
-                                <p>AC and Non-AC halls</p> 
-                                <p>Safe and comfortable environment for kids</p> 
-           
+                                <p>AC and Non-AC halls</p>
+                                <p>Safe and comfortable environment for kids</p>
                             </div>
                         </div>
-
-                        <div class="point">
-                            <!-- <span class="icon">✔✔</span> -->
-                            <div class="text">
-                                <h3> 🥳 Party and Event Bookings:</h3>
-                                <p>Birthdays, Naming Ceremonies, Engagements, Kitty Parties.</p> 
-                                <p>Hall available for 25 to 100 people.</p> 
-                            </div>
-                        </div>
-
-                        <div class="point">
-                            <div class="text">
-                                <h3> ☕ Breakfast, Lunch, and Dinner Service:</h3>
-                                <p>Continuous service from morning to night.</p> 
-                                <p>Takeaway and parcel facilities available.</p> 
-                            </div>
-                        </div>
-
-                        <div class="point">
-                            <div class="text">
-                                <h3>📱 Online Ordering & WhatsApp Booking:</h3>
-                                <p>Order on WhatsApp: 9370995131.</p>  
-                            </div>
-                        </div>
-
-                        <div class="point">
-                            <div class="text">
-                                <h3>🅿️ Free Parking Facility:</h3>
-                                <p>Safe vehicle parking available near the hotel.</p>  
-                            </div>
-                        </div>
-
-
-                        <div class="point">
-                            <div class="text">
-                                <h3>🚻 Clean and Modern Washrooms:</h3>
-                                <p>Separate clean toilets for men and women.</p>  
-                            </div>
-                        </div>
-
-                        <div class="point">
-                            <div class="text">
-                                <h3>🧼 Cleanliness and Quality Assurance:</h3>
-                                <p>FSSAI-certified kitchen.</p> 
-                                <p>Daily sanitization</p> 
-                            </div>
-                        </div>
-
-                        <div class="point">
-                            <div class="text">
-                                <h3>👨‍👩‍👧‍👦 Special Thali/Menu for Families and Kids:</h3>
-                                <p>Light and healthy options for children.</p> 
-                            </div>
-                        </div>
-
-                            <div class="point">
-                            <div class="text">
-                                <h3>🌿 Garden Seating (if available):</h3>
-                                <p>Light and healthy options for children.</p> 
-                            </div>
-                        </div>
+                    </div>
+                 
                 </div>
 
-                  
+                <!-- Group 3 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6">
+                        <div class="point">
+                            <div class="text">
+                                <h3>🥳 Party and Event Bookings:</h3>
+                                <p>Birthdays, Naming Ceremonies, Engagements, Kitty Parties.</p>
+                                <p>Hall available for 25 to 100 people.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="/static/img/parammpara_business_lunch.jpg" alt="Event Booking" class="img-fluid rounded shadow" />
+                    </div>
                 </div>
-            </div>    
+
+                <!-- Repeat similar blocks for each group -->
+                <!-- Example for Garden Seating -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6">
+                        <div class="point">
+                            <div class="text">
+                                <h3>🌿 Garden Seating (if available)</h3>
+                                <p>Peaceful open-air dining surrounded by greenery</p>
+                                <p>Ideal for families, couples, and small gatherings</p>
+                                <p>Fresh air with a relaxing and cozy ambiance</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="/static/img/garden.jpg" alt="Garden Seating" class="img-fluid rounded shadow" />
+                    </div>
+                </div>
+            </div>
+    
 
          
         
