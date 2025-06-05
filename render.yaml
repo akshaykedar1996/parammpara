@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: django-app
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn parammpara.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: parammpara.settings
+      - key: SECRET_KEY
+        value: django-insecure-dkru=r0lfzi&m62tr3l!4-_c+$knecv$!4d%t@s*zd3=*!eb-7
