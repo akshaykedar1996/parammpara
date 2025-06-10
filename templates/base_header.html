@@ -111,7 +111,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                                      
 
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger appointment-btn " href="{% url 'franchise' %}">Become A Franchise</a>
+                      <a class="nav-link js-scroll-trigger appointment-btn " style="background-color:white" href="#">Become A Franchise</a>
                     </li>
 
                     <li class="nav-item">
@@ -124,7 +124,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                 </div>
               </div>
             </nav>
-            {% include 'e_commerc/Navbar.html' %}
+            {% comment %} {% include 'e_commerc/Navbar.html' %} {% endcomment %}
             {% block content %}
             
 
@@ -134,53 +134,17 @@ License URL: https://creativecommons.org/licenses/by/4.0/
  
               <!-- FOOTER 
                    =================-->
-                
-                <footer>
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col-md-5">
-                        <span class="copyright">Copyright &copy; 2025 Parammpara</span>
-                      </div>
-                      <div class="col-md-3">
-                        <ul class="list-inline social-buttons">
-                          <li class="list-inline-item">
-                            <a href="#">
-                              <i class="fab fa-twitter"></i>
-                            </a>
-                          </li>
-                          <li class="list-inline-item">
-                            <a href="#">
-                              <i class="fab fa-facebook"></i>
-                            </a>
-                          </li>
-                          <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fab fa-linkedin"></i>
 
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="col-md-4">
-                        <ul class="list-inline quicklinks">
-                          <li class="list-inline-item">
-                            <a href="#">Privacy Policy</a>
-                          </li>
-                          <li class="list-inline-item">
-                            <a href="#">Terms of Use</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </footer> 
+              {% include 'footer.html' %}
+                
+           
 
                 <a href="#page-top" id="back-to-top" class="btn btn-sm btn-green btn-back-to-top  js-scroll-trigger hidden-sm hidden-xs" title="home" role="button">
                     <i class="fa fa-angle-double-up"></i>
                 </a>
 
                 <div id="whatsapp-icon">
-                  <a href="https://wa.me/9370995131?text=Hi,%20I%20want%20to%20ask%20about%20(skin/hair/laser/slimming)%20_______.%0A%0AName:%20_______%0AAge:%20_______%0ACity:%20_______" 
+                  <a href="https://wa.me/9370995131?text=Hi,%20I%20want%20to%20ask%20about%20(/franchise opportunities/Event Hosting/Catering Services/Home Delivery)%20_______.%0A%0AName:%20_______%0AAge:%20_______%0ACity:%20_______,%0AAddress:%20_______," 
                      target="_blank">
                       <img src="https://cdn.pixabay.com/photo/2015/08/03/13/58/whatsapp-873316_1280.png" alt="WhatsApp">
                   </a>

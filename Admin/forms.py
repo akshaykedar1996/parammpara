@@ -8,6 +8,11 @@ class CarouselImageForm(forms.ModelForm):
         fields = ['title', 'image']
 
 
+class FranchiseserviceForm(forms.ModelForm):
+    class Meta:
+        model = Franchiseservice
+        fields = ['img1', 'title','paragraph','description','img2']
+            
 
 from django import forms
 

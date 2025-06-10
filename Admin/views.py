@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse
 
 from django.shortcuts import render, redirect, get_object_or_404
 from service.models import *
-from .forms import CarouselImageForm
+from .forms import CarouselImageForm,FranchiseserviceForm
 from .models import AdminDT
 from ecommerce.models import *
 # Create your views here.
@@ -611,3 +611,52 @@ def order_invoice(request, order_id):
         'order': order,
         'grand_total': total_amount
     })
+    
+'''
+======================================================  Franchiseservices ===================================================== 
+'''
+# views.py Franchiseservices_list
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import FranchiseserviceForm
+
+def Franchiseservice_list(request):
+    if 'admin_id' not in request.session:
+        return redirect('login_admin')
+    images = Franchiseservice.objects.all()
+    return render(request, 'superadmin/franchise/list.html', {'images': images})
+
+def Franchiseservice_add(request):
+    if 'admin_id' not in request.session:
+        return redirect('login_admin')
+    if request.method == 'POST':
+        form = FranchiseserviceForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('Franchiseservice_list')
+    else:
+        form = FranchiseserviceForm()
+    return render(request, 'superadmin/franchise/form.html', {'form': form, 'title': 'Add Franchise Service'})
+
+def Franchiseservice_edit(request, pk):
+    if 'admin_id' not in request.session:
+        return redirect('login_admin')
+    instance = get_object_or_404(Franchiseservice, pk=pk)
+    if request.method == 'POST':
+        form = FranchiseserviceForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('Franchiseservice_list')
+    else:
+        form = FranchiseserviceForm(instance=instance)
+    return render(request, 'superadmin/franchise/form.html', {'form': form, 'title': 'Edit Franchise Service'})
+
+def Franchiseservice_delete(request, pk):
+    if 'admin_id' not in request.session:
+        return redirect('login_admin')
+    instance = get_object_or_404(Franchiseservice, pk=pk)
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('Franchiseservice_list')
+    return render(request, 'superadmin/franchise/confirm_delete.html', {'image': instance})
+
+   

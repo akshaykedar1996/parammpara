@@ -17,7 +17,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <meta name="description" content="Salon Bootstrap Themes & Templates Salon bootstrap themes and templates will help you create an amazing website for your beauty salon of any kind in no time." /> 
         <link href="/static/img/logo.jpg" rel="apple-touch-icon" sizes="96x96">
         <link href="/static/img/logo.jpg" rel="icon" sizes="96x96" type="image/png">
-        <meta content="img/beauty-salon_logo_96dp.png" name="msapplication-TileImage">
+        <meta content="img/beauty-salon_logo_96dp.jpg" name="msapplication-TileImage">
         
         <meta property="og:url" content="https://www.boostraptheme.com/demo/index.html" />
         <meta property="og:title" content="Beauty and Salon - Free Bootstrap 4 Template | Boostraptheme" />
@@ -91,7 +91,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                     </li>
 
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger" href="{% url 'all_products' %}">Product</a>
+                      <a class="nav-link js-scroll-trigger" href="#">Product</a>
                     </li>    
            
                     <li class="nav-item dropdown">
@@ -118,8 +118,9 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                     </li>
 
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+                        <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                     </li>
+
                     <!-- <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="">Products</a>
                     </li> -->
@@ -131,7 +132,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <!-- HEADER 
             =================-->
             
-            {% include 'e_commerc/Navbar.html' %}
+            {% comment %} {% include 'e_commerc/Navbar.html' %} {% endcomment %}
             <header id="home">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -377,35 +378,9 @@ License URL: https://creativecommons.org/licenses/by/4.0/
             {% include 'e_commerc/ProductSlider.html' %} 
         <!-- TESTIMONIALS 
             =================-->
-            <section id="testimonials" class="testimonials">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="testimonial-slider" class="owl-carousel owl-theme">
-                                {% for ts in testimonial %}
-                                <div class="testimonial">
-                                    <div class="pic">
-                                    {% if ts.image.url is not none %}
-                                        <img src="{{ ts.image.url }}">
-                                    {% else %}
-                                        <img src="">
-                                    {% endif %}
-                                    </div>
-                                    <p class="description">
-                                        {{ ts.description1 }}
-                                    </p>
-                                    <h3 class="title">{{ ts.title }}</h3>
-                                    <small class="post">- {{ ts.post }}</small>
-                                </div>
-                                {% endfor %}
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> 
+
   
-        <!-- CONTACT FORM
+        <!-- CONTACT FORM <a class="nav-link js-scroll-trigger" href="#">Contact</a>
             =================-->
             <section id="contact" class="contact pb-0" style="margin-bottom: -50px;">
               <div class="container"> 
@@ -437,10 +412,17 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                             <input class="form-control" id="name" name="name" type="text" placeholder="Your Name *" required data-validation-required-message="Please enter your name.">
                             <p class="help-block text-danger"></p>
                           </div>
-                          <div class="form-group">
-                            <input class="form-control" id="email" name="email" type="email" placeholder="Your Email *" required data-validation-required-message="Please enter your email address.">
-                            <p class="help-block text-danger"></p>
-                          </div>
+
+                            <div class="form-group">
+                                <input class="form-control" id="email" name="email" type="email"
+                                    placeholder="Your Email *"
+                                    required
+                                    pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                                    title="Please enter a valid Gmail address (e.g., example@gmail.com)">
+                                <small class="text-danger">Only Gmail addresses are allowed.</small>
+                            </div>
+
+
                           <div class="form-group">
                             <input class="form-control" id="phone" name="phone" type="tel" placeholder="Your Phone *" required data-validation-required-message="Please enter your phone number.">
                             <p class="help-block text-danger"></p>
@@ -462,6 +444,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                   </div>
                 </div>
               </div>
+              <br/>
  
               <!-- FOOTER 
                    =================-->
@@ -473,7 +456,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                
                 
                 <div id="whatsapp-icon">
-                    <a href="https://wa.me/9370995131?text=Hi,%20I%20want%20to%20ask%20about%20(skin/hair/laser/slimming)%20_______.%0A%0AName:%20_______%0AAge:%20_______%0ACity:%20_______" 
+                    <a href="https://wa.me/9370995131?text=Hi,%20I%20want%20to%20ask%20about%20(/franchise opportunities/Event Hosting/Catering Services/Home Delivery)%20_______.%0A%0AName:%20_______%0AAge:%20_______%0ACity:%20_______,%0AAddress:%20_______," 
                     target="_blank">
                      <img src="https://cdn.pixabay.com/photo/2015/08/03/13/58/whatsapp-873316_1280.png" alt="WhatsApp">
                  </a>

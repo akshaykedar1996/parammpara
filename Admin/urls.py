@@ -1,9 +1,10 @@
 from django.urls import path
 from .views import *
 from . import views
-urlpatterns = [
+urlpatterns = [  
     
     path('', login_admin , name='login_admin' ),
+    path('logout-admin/', views.logout_admin, name='logout_admin'),
     path('home/', home , name='super_index' ),
 
     # carousel
@@ -63,5 +64,8 @@ urlpatterns = [
     path('orders/<str:status>/', admin_all_order_by_status, name='admin_order_by_status'),
 
 
-  
+    path('franchise-services/', Franchiseservice_list, name='Franchiseservice_list'),
+    path('franchise-services/add/', Franchiseservice_add, name='Franchiseservice_add'),
+    path('franchise-services/edit/<int:pk>/', Franchiseservice_edit, name='Franchiseservice_edit'),
+    path('franchise-services/delete/<int:pk>/', Franchiseservice_delete, name='Franchiseservice_delete'),  
 ]

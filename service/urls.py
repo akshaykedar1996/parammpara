@@ -11,6 +11,9 @@ urlpatterns = [
     path('contact-us/', Contact_us, name='contact_us'),
     path('franchise/', franchise, name='franchise'),
     
+    path('privacy_policy/', privacy_policy, name='privacy_policy'),
+    path('terms_of_service/', terms_of_service, name='terms_of_service'),
+    
     
     path('add-service/', add_services, name='add_service'),
     path('edit-service/', edit_services, name='edit_service'),

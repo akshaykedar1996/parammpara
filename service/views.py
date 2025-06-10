@@ -1,44 +1,77 @@
-from django.shortcuts import render , HttpResponse ,redirect,HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from .models import *
 from django.core.mail import send_mail
 from django.conf import settings
 from ecommerce.models import *
-# Create your views here.
+
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+
 def home(request):
-    images = CarouselImage.objects.all()  # Database se saari images fetch karenge
-    services =  MainService.objects.prefetch_related('sub_services').all()
-   
+    images = CarouselImage.objects.all()
+    services = MainService.objects.prefetch_related('sub_services').all()
     ts = Testimonials.objects.all()
     products = Products.objects.all()
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        message = request.POST.get("message")
 
-        contact_msg = Contact.objects.create(
-                name=name,
-                email=email,
-                contact_no=phone,
-                msg=message
-            )
-        contact_msg.save()
-        subject=f"New Contact Message from {name}",
-        message=f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\nMessage:\n{message}",
-        fail_silently=False,       
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [email]  # Add recipient email addresses here
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        email = request.POST.get("email", "").strip()
+        phone = request.POST.get("phone", "").strip()
+        message_text = request.POST.get("message", "").strip()
+
+        # Backend email validation
         try:
-            send_mail(subject, message, email_from, recipient_list, fail_silently)
-        except:
-            pass    
-            
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Please enter a valid email address.")
+            return HttpResponseRedirect('/#contact')
+
+        # ✅ Extra Gmail-only check
+        if not email.endswith('@gmail.com'):
+            messages.error(request, "Only Gmail addresses are allowed.")
+            return HttpResponseRedirect('/#contact')
+
+
+        # Save contact to DB
+        contact_msg = Contact.objects.create(
+            name=name,
+            email=email,
+            contact_no=phone,
+            msg=message_text
+        )
+        contact_msg.save()
+
+        # Send email
+        subject = f"New Contact Message from {name}"
+        message = f"""
+        Name: {name}
+        Email: {email}
+        Phone: {phone}
+
+        Message:
+        {message_text}
+        """
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]  # You can add your own email here too
+
+        try:
+            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+        except Exception as e:
+            messages.warning(request, "Message saved, but email could not be sent.")
+            return HttpResponseRedirect('/#contact')
+
         messages.success(request, "Your message has been sent successfully!")
         return HttpResponseRedirect('/#contact')
 
-    return render(request, "index.html", {"images": images , 'services':services ,'testimonial':ts , 'products':products})
+    return render(request, "index.html", {
+        "images": images,
+        "services": services,
+        "testimonial": ts,
+        "products": products
+    })
 
-
+  
 def service(request):
     services = MainService.objects.prefetch_related('sub_services').all()
     sub_service = SubService.objects.all()
@@ -84,6 +117,16 @@ def abouts(request):
     return render(request, 'abouts.html', dt)
 
 
+'''======================== Policy & service ======================================='''
+
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+def terms_of_service(request):
+    return render(request, 'terms_of_service.html')
+
+'''=================================================================================='''
 
 
 from django.shortcuts import render, redirect
@@ -92,7 +135,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import FranchiseForm
 from .models import Franchise
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 def Contact_us(request):
     sub_service_all = SubService.objects.all()
@@ -100,31 +144,47 @@ def Contact_us(request):
 
     if request.method == "POST":
         post_data = request.POST.copy()
+
+        # Construct full contact number
         country_code = post_data.get('country_code')
         contact_number = post_data.get('contact_no')
         full_contact = f"{country_code}{contact_number}"
         post_data['contact_no'] = full_contact
 
-        form = FranchiseForm(post_data)
+        # Email validation logic
+        email = post_data.get('email')
+        try:
+            validate_email(email)
+            if not email.lower().endswith('@gmail.com'):
+                raise ValidationError("Only Gmail addresses are allowed.")
+        except ValidationError:
+            messages.error(request, "Please enter a valid Gmail address (e.g., yourname@gmail.com). ❌")
+            form = FranchiseForm(post_data)
+            return render(request, 'ContactUs.html', {
+                'services': services,
+                'sub_service': sub_service_all,
+                'form': form
+            })
 
+        form = FranchiseForm(post_data)
         if form.is_valid():
             franchise = form.save()
 
             # Send confirmation email
             subject = "Franchise Confirmation"
             message = f"""
-            Dear {franchise.name},
+Dear {franchise.name},
 
-            Thank you for booking a contact with us. Here are your details:
-            📅 Date: {franchise.date}
-            🕒 Time: {franchise.time}
-            📍 Address: {franchise.address}
+Thank you for booking a contact with us. Here are your details:
+📅 Date: {franchise.date}
+🕒 Time: {franchise.time}
+📍 Address: {franchise.address}
 
-            We look forward to seeing you!
+We look forward to seeing you!
 
-            Best regards,
-            Your Company Name
-            """
+Best regards,  
+Your Company Name
+"""
             recipient_email = franchise.email
             try:
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [recipient_email])
@@ -132,7 +192,8 @@ def Contact_us(request):
                 print("Email failed:", e)
 
             messages.success(request, "Your appointment has been booked successfully! 🎉")
-            return redirect('Contact_us')  # Change to your actual URL name
+            return redirect('contact_us')  # ✅ exact match with the name in urls.py
+
         else:
             messages.error(request, "There was an error in your form. Please check the details. ❌")
     else:
@@ -143,6 +204,7 @@ def Contact_us(request):
         'sub_service': sub_service_all,
         'form': form
     })
+
 
 
 
@@ -224,3 +286,4 @@ def services_page(request):
 def read_more_view(request, service_id):
     service_obj = get_object_or_404(Franchiseservice, id=service_id)
     return render(request, 'read_more.html', {'service': service_obj})
+

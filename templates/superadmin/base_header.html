@@ -142,10 +142,21 @@
                 <span class="pc-mtext">Contact</span>
             </a>
         </li>
+
+        <li class="pc-item pc-caption">
+          <label>Franchise</label>
+          <i class="ti ti-news"></i>
+        </li>
         <li class="pc-item">
-            <a href="{% url 'Franchise_list' %}" class="pc-link">
+            <a href="#" class="pc-link">  <!--client List -->
                 <span class="pc-micon"><i class="ti ti-calendar-event"></i></span> <!-- Appointment icon -->
                 <span class="pc-mtext">Franchise List</span>
+            </a>
+        </li>
+        <li class="pc-item">
+            <a href="#" class="pc-link">  <!--Franchise service img  -->
+                <span class="pc-micon"><i class="ti ti-calendar-event"></i></span> <!-- Appointment icon -->
+                <span class="pc-mtext">Franchise Services</span>
             </a>
         </li>
         <li class="pc-item pc-caption">
@@ -157,7 +168,7 @@
               <span class="pc-micon"><i class="ti ti-box-multiple"></i></span> <!-- Orders icon -->
               <span class="pc-mtext">Orders</span>
           </a>
-      </li>
+        </li>
       
       <li class="pc-item">
           <a href="{% url 'product_list' %}" class="pc-link">
@@ -308,7 +319,7 @@
               <h6 class="mb-1">Parammpara</h6>
               <span></span>
             </div>
-            <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+            <a href="{% url 'logout_admin' %}" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
           </div>
         </div>
         <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">

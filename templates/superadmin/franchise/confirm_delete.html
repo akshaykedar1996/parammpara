@@ -1,0 +1,18 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}Delete Franchise Service | Parammpara{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow p-4 text-center">
+        <h3 class="mb-4 text-danger">
+            Are you sure you want to delete <strong>{{ image.title }}</strong>?
+        </h3>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'Franchiseservice_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

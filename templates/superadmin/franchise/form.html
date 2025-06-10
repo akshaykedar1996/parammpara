@@ -1,0 +1,75 @@
+{% extends "superadmin/base_header.html" %}
+
+{% block title %}{{ title }} | Parammpara{% endblock %}
+
+{% block content %}
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container-fluid">
+            <div class="card shadow p-4">
+                <h2 class="text-primary fw-bold mb-4">{{ title }}</h2>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="id_title"
+                               value="{{ form.title.value|default_if_none:'' }}">
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Paragraph -->
+                    <div class="mb-3">
+                        <label for="id_paragraph" class="form-label">Paragraph</label>
+                        <textarea name="paragraph" class="form-control" id="id_paragraph">{{ form.paragraph.value|default_if_none:'' }}</textarea>
+                        {% if form.paragraph.errors %}
+                            <div class="text-danger">{{ form.paragraph.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="id_description">{{ form.description.value|default_if_none:'' }}</textarea>
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div class="mb-3">
+                        <label for="id_img1" class="form-label">Image 1</label>
+                        <input type="file" name="img1" class="form-control" id="id_img1">
+                        {% if form.img1.errors %}
+                            <div class="text-danger">{{ form.img1.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div class="mb-3">
+                        <label for="id_img2" class="form-label">Image 2</label>
+                        <input type="file" name="img2" class="form-control" id="id_img2">
+                        {% if form.img2.errors %}
+                            <div class="text-danger">{{ form.img2.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save"></i> Save
+                        </button>
+                        <a href="{% url 'Franchiseservice_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
