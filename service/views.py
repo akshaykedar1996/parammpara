@@ -20,19 +20,6 @@ def home(request):
         phone = request.POST.get("phone", "").strip()
         message_text = request.POST.get("message", "").strip()
 
-        # Backend email validation
-        try:
-            validate_email(email)
-        except ValidationError:
-            messages.error(request, "Please enter a valid email address.")
-            return HttpResponseRedirect('/#contact')
-
-        # ✅ Extra Gmail-only check
-        if not email.endswith('@gmail.com'):
-            messages.error(request, "Only Gmail addresses are allowed.")
-            return HttpResponseRedirect('/#contact')
-
-
         # Save contact to DB
         contact_msg = Contact.objects.create(
             name=name,
@@ -103,7 +90,7 @@ def sub_service_detail(request, id):
 
 
 
-def abouts(request):
+def aboutus(request):
    
     sub_service_all = SubService.objects.all()
     services = MainService.objects.prefetch_related('sub_services').all()
@@ -114,7 +101,7 @@ def abouts(request):
           }
    
     # return HttpResponse(sub_service)
-    return render(request, 'abouts.html', dt)
+    return render(request, 'aboutus.html', dt)
 
 
 '''======================== Policy & service ======================================='''
@@ -135,8 +122,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import FranchiseForm
 from .models import Franchise
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 
 def Contact_us(request):
     sub_service_all = SubService.objects.all()
@@ -151,21 +136,6 @@ def Contact_us(request):
         full_contact = f"{country_code}{contact_number}"
         post_data['contact_no'] = full_contact
 
-        # Email validation logic
-        email = post_data.get('email')
-        try:
-            validate_email(email)
-            if not email.lower().endswith('@gmail.com'):
-                raise ValidationError("Only Gmail addresses are allowed.")
-        except ValidationError:
-            messages.error(request, "Please enter a valid Gmail address (e.g., yourname@gmail.com). ❌")
-            form = FranchiseForm(post_data)
-            return render(request, 'ContactUs.html', {
-                'services': services,
-                'sub_service': sub_service_all,
-                'form': form
-            })
-
         form = FranchiseForm(post_data)
         if form.is_valid():
             franchise = form.save()
@@ -173,18 +143,18 @@ def Contact_us(request):
             # Send confirmation email
             subject = "Franchise Confirmation"
             message = f"""
-Dear {franchise.name},
+            Dear {franchise.name},
 
-Thank you for booking a contact with us. Here are your details:
-📅 Date: {franchise.date}
-🕒 Time: {franchise.time}
-📍 Address: {franchise.address}
+            Thank you for booking a contact with us. Here are your details:
+            📅 Date: {franchise.date}
+            🕒 Time: {franchise.time}
+            📍 Address: {franchise.address}
 
-We look forward to seeing you!
+            We look forward to seeing you!
 
-Best regards,  
-Your Company Name
-"""
+            Best regards,  
+            Your Company Name
+            """
             recipient_email = franchise.email
             try:
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [recipient_email])
@@ -192,8 +162,7 @@ Your Company Name
                 print("Email failed:", e)
 
             messages.success(request, "Your appointment has been booked successfully! 🎉")
-            return redirect('contact_us')  # ✅ exact match with the name in urls.py
-
+            return redirect('contact_us')
         else:
             messages.error(request, "There was an error in your form. Please check the details. ❌")
     else:
@@ -204,8 +173,6 @@ Your Company Name
         'sub_service': sub_service_all,
         'form': form
     })
-
-
 
 
 

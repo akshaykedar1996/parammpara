@@ -6,7 +6,7 @@ urlpatterns = [
     path('services/', service , name='service'),
     path('services/<int:service_id>/', service_detail_view, name='service_detail'),
     path('sub-service/<int:id>/', sub_service_detail, name='sub_service_detail'),
-    path('abouts/', abouts , name='about'),
+    path('aboutus/', aboutus , name='aboutus'),
 
     path('contact-us/', Contact_us, name='contact_us'),
     path('franchise/', franchise, name='franchise'),

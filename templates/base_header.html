@@ -80,7 +80,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                     <img src="/static/img/logo.jpg" style="width: 100%; height: auto;" alt="" class="img-fluid">
                   </div>
                 </a>
-                <button class="navbar-toggler navbar-toggler-center  ml-auto py-3 my-2 " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler navbar-toggler-center  ml-auto py-3 my-2 " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="" aria-expanded="false" aria-label="Toggle navigation">
                   Menu
                   <i class="fa fa-bars"></i>
                 </button>
@@ -88,10 +88,10 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                   <ul class="navbar-nav text-uppercase ml-auto">
                   	<li class="nav-item">
                       <a class="nav-link js-scroll-trigger" href="{% url 'index' %}">Home</a>
-                    </li>
+                    </li>  
                     
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger" href="{% url 'index' %}">Product</a>
+                      <a class="nav-link js-scroll-trigger" href="{% url 'all_products' %}">Product</a>
                     </li>
                   	<!-- <li class="nav-item">
                       <a class="nav-link js-scroll-trigger" href="{% url 'service' %}">Services</a>
@@ -111,7 +111,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                                      
 
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger appointment-btn " style="background-color:white" href="#">Become A Franchise</a>
+                      <a class="nav-link js-scroll-trigger appointment-btn " style="background-color:white" href="{%  url 'franchise' %}">Become A Franchise</a>
                     </li>
 
                     <li class="nav-item">

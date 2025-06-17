@@ -3,6 +3,126 @@
 
 {% block content %}
 <style>
+            /* All nav-links hover text color */
+        .navbar-nav .nav-link:hover {
+            color: #ffcc00 !important; /* 👈 Yellow text */
+            background-color: transparent !important; /* Or use another background if needed */
+            transition: all 0.3s ease;
+        }
+        /* Dropdown menu item hover text color and background */
+        .dropdown-menu .dropdown-item:hover {
+            color: #ffcc00 !important; /* 👈 Yellow text */
+            background-color:rgb(183, 212, 242) !important; /* 👈 Bootstrap blue background */
+            transition: all 0.2s ease-in-out;
+        }
+
+        @keyframes zoomPulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+        }
+
+        .appointment-btn {
+            background-color: #ffcc00 !important;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: inline-block;
+            animation: zoomPulse 1.5s infinite ease-in-out; /* 👈 Automatic pulse */
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .appointment-btn:hover {
+            background-color: #ffcc00 !important;
+            color: #fff !important;
+        }
+
+
+        .section-title {
+            background: linear-gradient(135deg, #F4C430 0%, #e1d4ac 100%);
+            color: white;
+            padding: 30px;
+            text-align: left;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .treatment-card {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 20px;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .treatment-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .treatment-card h5 {
+            padding: 15px;
+            background: white;
+            color: #F4C430;
+            font-size: 17px;
+            margin: 0;
+        }
+        .treatment-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .sidebar {
+            border-left: 4px solid #F4C430;
+            padding-left: 15px;
+        
+           
+        }
+        .sidebar h5{
+            font-size: 18px;
+            font-weight: bold;
+
+        }
+        .list-unstyled li{
+            font-size: 15px;
+            color: rgb(83, 81, 81);
+            padding: 5px;
+        }
+        .list-unstyled li a{
+          
+            color: rgb(11, 10, 10);
+       
+        }
+     
+    .list-unstyled li:hover a:hover {
+        color: #F4C430; /* Text color change */
+        cursor: pointer; /* Pointer cursor for better UX */
+       
+    }
+
+    .appointment-btn {
+        background-color: #ffcc00 !important;
+        color: white !important;
+        padding: 8px 16px;
+        border-radius: 4px;
+        display: inline-block;
+        animation: zoomPulse 1.5s infinite ease-in-out; /* 👈 Automatic pulse */
+        transition: background-color 0.3s ease-in-out;
+        }
+
+    /* Change dropdown text color on hover */
+    .dropdown-menu .dropdown-item:hover {
+        color: #F4C430 !important; /* Change this to your desired color */
+        background-color: #f9f9f9; /* Optional: change background on hover */
+    }
+
     body {
         background-color: #fffbea;
     }

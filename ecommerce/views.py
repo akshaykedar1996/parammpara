@@ -148,7 +148,7 @@ def google_callback(request):
                 user.password = pp
                 user.save()
                 subject = 'Hello name'
-                message = f'Your Email: {email} and password :( {pp} ) URL https://new.joytilingtechnology.com/ecoomerc/home/'
+                message = f'Your Email: {email} and password :( {pp} ) URL https://new.joytilingtechnology.com/admin/home/'
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list = [email]  # Add recipient email addresses here
                 send_mail(subject, message, email_from, recipient_list)

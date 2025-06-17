@@ -56,7 +56,7 @@
     color: rgba(31, 212, 73, 0.52);
     padding: 8px 16px;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 16px;  
     font-weight: bold;
     z-index: 10;
     pointer-events: none;
@@ -148,13 +148,13 @@
           <i class="ti ti-news"></i>
         </li>
         <li class="pc-item">
-            <a href="#" class="pc-link">  <!--client List -->
+            <a href="{% url 'Franchise_list' %}" class="pc-link">  <!--client List -->
                 <span class="pc-micon"><i class="ti ti-calendar-event"></i></span> <!-- Appointment icon -->
                 <span class="pc-mtext">Franchise List</span>
             </a>
         </li>
         <li class="pc-item">
-            <a href="#" class="pc-link">  <!--Franchise service img  -->
+            <a href="{% url 'Franchiseservice_list' %}" class="pc-link">  <!--Franchise service img  -->
                 <span class="pc-micon"><i class="ti ti-calendar-event"></i></span> <!-- Appointment icon -->
                 <span class="pc-mtext">Franchise Services</span>
             </a>

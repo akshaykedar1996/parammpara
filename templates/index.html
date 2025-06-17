@@ -48,10 +48,47 @@ License URL: https://creativecommons.org/licenses/by/4.0/
             });
         </script>
         <style>
-            /* Appointment Button Styling */
-/* Appointment Button - Modern Look */
+        /* All nav-links hover text color */
+        .navbar-nav .nav-link:hover {
+            color: #ffcc00 !important; /* 👈 Yellow text */
+            background-color: transparent !important; /* Or use another background if needed */
+            transition: all 0.3s ease;
+        }
+        /* Dropdown menu item hover text color and background */
+        .dropdown-menu .dropdown-item:hover {
+            color: #ffcc00 !important; /* 👈 Yellow text */
+            background-color:rgb(183, 212, 242) !important; /* 👈 Bootstrap blue background */
+            transition: all 0.2s ease-in-out;
+        }
 
+        @keyframes zoomPulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+        }
+
+        .appointment-btn {
+            background-color: #ffcc00 !important;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: inline-block;
+            animation: zoomPulse 1.5s infinite ease-in-out; /* 👈 Automatic pulse */
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .appointment-btn:hover {
+            background-color: #ffcc00 !important;
+            color: #fff !important;
+        }
         </style>
+
 
     </head>
 
@@ -72,7 +109,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                 </div>
               </div>
             </div>  -->
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:white" id="mainNav" data-toggle="affix">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:red" id="mainNav" data-toggle="affix">
               <div class="container-fluid" style="background-color:white">
            
               	<a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}">
@@ -120,12 +157,10 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                     </li>
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="">Products</a>
-                    </li> -->
-                  </ul>
-                </div>
+              
+                   {% comment %} <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="">Language</a>
+                    </li>  {% endcomment %}
               </div>
             </nav>
 
@@ -419,7 +454,6 @@ License URL: https://creativecommons.org/licenses/by/4.0/
                                     required
                                     pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
                                     title="Please enter a valid Gmail address (e.g., example@gmail.com)">
-                                <small class="text-danger">Only Gmail addresses are allowed.</small>
                             </div>
 
 
